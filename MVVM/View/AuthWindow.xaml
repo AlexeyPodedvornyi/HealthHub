@@ -1,0 +1,119 @@
+﻿<Window x:Class="HealthHub.MVVM.View.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthHub"
+        xmlns:viewModel="clr-namespace:HealthHub.MVVM.ViewModel"
+        xmlns:customControls="clr-namespace:HealthHub.CustomControls"
+        xmlns:commands="clr-namespace:HealthHub.MVVM.Commands" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Height="450" Width="500" WindowStyle="None" ResizeMode="NoResize">
+
+    <Window.DataContext>
+        <viewModel:AuthViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DockPanel Background="#1295ff" Opacity="0.9">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction 
+                        Command="{Binding MoveWindowCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
+            <Button Style="{StaticResource AuthCloseButton}" Command="{Binding CloseAppCommand}"/>
+        </DockPanel>
+
+        <Grid Grid.Row="1" Background="#f5f7ff">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="175"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.RowSpan="3" Grid.ColumnSpan="4"  
+               Source="/Images/back.jpg"
+               Width="500"
+               Height="420"
+               Stretch="Fill"
+               Opacity="0.4"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Left"
+               />
+
+            <Border Grid.ColumnSpan="4" 
+                    Style="{StaticResource TopFigure}" 
+                    Opacity="0.65"
+                    Background="#70bfff" 
+                    HorizontalAlignment="Left" 
+                    Margin="75,0,0,0"
+                    />
+
+            <Grid Grid.ColumnSpan="4">
+                <Label Style="{StaticResource TopLabel}" 
+                       HorizontalAlignment="Left"
+                       Margin="219,20,0,0"
+                       Foreground="White"
+                       />
+                <Image Style="{StaticResource TopImg}" 
+                       Margin="120,18,295,18"
+                       />
+            </Grid>
+
+            <Border Grid.Row="1" 
+                    Style="{StaticResource Figure}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,25,15,0"
+                    Width="185"
+                    />
+            <Label Grid.Row="1"  
+                   Style="{StaticResource AuthLabel}"
+                   Content="Авторизація"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Foreground="White" Margin="30,25,0,0"                 
+                   />
+            <TextBox Grid.Row="1"  
+                    Style="{StaticResource AuthTB}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Tag="Введіть логін" 
+                    Margin="165,79,0,0" 
+                    Grid.ColumnSpan="2"
+                     Name="tb1"
+                     />
+
+            <customControls:BindablePasswordBox Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="165,137,0,0"
+                    Width="190"
+                    Height="35"/>
+
+            <Button Grid.Row="2" 
+                    Style="{StaticResource LoginButton}"
+                    Margin="178,53,13,67"
+                    Foreground="White"
+                    Opacity="0.9" Grid.ColumnSpan="2"
+                    Click="Button_Click"
+                    />
+        </Grid>
+
+    </Grid>
+</Window>

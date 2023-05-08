@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\BrunoAce-Regular.ttf" />
+    <None Remove="Fonts\Poppins-Black.ttf" />
+    <None Remove="Fonts\Poppins-Bold.ttf" />
+    <None Remove="Fonts\Poppins-SemiBold.ttf" />
+    <None Remove="Images\back.jpg" />
+    <None Remove="Images\calendar.ico" />
+    <None Remove="Images\doctor.ico" />
+    <None Remove="Images\heart.ico" />
+    <None Remove="Images\hospital.ico" />
+    <None Remove="Images\ico1.ico" />
+    <None Remove="Images\ico2.ico" />
+    <None Remove="Images\main.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignColors" Version="2.1.2" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+    <PackageReference Include="Npgsql" Version="7.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\BrunoAce-Regular.ttf" />
+    <Resource Include="Fonts\Poppins-Black.ttf" />
+    <Resource Include="Fonts\Poppins-Bold.ttf" />
+    <Resource Include="Fonts\Poppins-SemiBold.ttf" />
+    <Resource Include="Images\back.jpg" />
+    <Resource Include="Images\calendar.ico" />
+    <Resource Include="Images\doctor.ico" />
+    <Resource Include="Images\heart.ico" />
+    <Resource Include="Images\hospital.ico" />
+    <Resource Include="Images\ico1.ico" />
+    <Resource Include="Images\ico2.ico" />
+    <Resource Include="Images\main.ico" />
+  </ItemGroup>
+
+</Project>

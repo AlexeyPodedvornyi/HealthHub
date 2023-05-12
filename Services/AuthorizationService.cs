@@ -1,5 +1,4 @@
-﻿using HealthHub.Interfaces;
-using HealthHub.MVVM.Model;
+﻿using HealthHub.MVVM.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace HealthHub.Services
 {
     public class AuthorizationService
     {
-
+        
 
         //public IUser? GetUser(string login)
         //{

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthHub.Interfaces
+namespace HealthHub.MVVM.Model
 {
     public interface IUser
     {
-        string Login { get; set; }
-        string Password { get; set; }
+        string Login { get; }
+        string Password { get; }
     }
 }

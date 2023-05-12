@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace HealthHub.Core
+namespace HealthHub.MVVM.Commands
 {
     public class RelayCommand : ICommand
     {
@@ -30,12 +30,12 @@ namespace HealthHub.Core
         //Methods
         public bool CanExecute(object? parameter)
         {
-            return _canExecute == null || _canExecute(parameter);
+            return _canExecute == null || _canExecute(parameter!);
         }
 
         public void Execute(object? parameter)
         {
-            _execute(parameter);
+            _execute(parameter!);
         }
     }
 }

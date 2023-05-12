@@ -1,5 +1,4 @@
-﻿using HealthHub.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +9,9 @@ namespace HealthHub.MVVM.Model
     [Serializable]
     public class Doctor : IUser
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
+        public string Login { get; private set; }
+        public string Password { get; private set; }
+        public string Role { get; private set; }
 
         public Doctor(string login, string password, string role) 
         {

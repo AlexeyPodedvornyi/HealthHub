@@ -1,4 +1,5 @@
-﻿using HealthHub.MVVM.ViewModel;
+﻿using HealthHub.MVVM.Model;
+using HealthHub.MVVM.ViewModel;
 using HealthHub.Services;
 using System;
 using System.Collections.Generic;
@@ -22,16 +23,19 @@ namespace HealthHub.MVVM.View
     /// </summary>
     public partial class AuthWindow : Window
     {
-        public AuthWindow()
+        IUserService _userService;
+        public AuthWindow(IUserService userService)
         {
             InitializeComponent();
+            _userService = userService;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var dbService = new AuthorizationService();
-            var user = dbService.GetUser(tb1.Text);
-            MessageBox.Show($"{user.Login}\n {user.Password}");
+            //var dbService = new User();
+            var user = _userService.GetUser(tb1.Text);
+            if(user is Doctor doc) MessageBox.Show($"{doc?.Login}\n {doc?.Password}\n{doc?.Role}");
+            else MessageBox.Show($"{user?.Login}\n {user?.Password}");
         }
     }
 }

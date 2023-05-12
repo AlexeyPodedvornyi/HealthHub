@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace HealthHub.MVVM.ViewModel
 {
-    class AuthViewModel : ObservableObject
+    class AuthViewModel : ObservableObject, IViewModel
     {
         //Properties
         public ICommand MoveWindowCommand { get; }

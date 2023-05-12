@@ -1,5 +1,6 @@
 ﻿using HealthHub.Core;
 using HealthHub.Helpers;
+using HealthHub.MVVM.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ using System.Windows.Input;
 
 namespace HealthHub.MVVM.ViewModel
 {
-    class BindablePasswordBoxViewModel: ObservableObject
+    class BindablePasswordBoxViewModel: ObservableObject, IViewModel
     {
         //Fields
         private SecureString _password;

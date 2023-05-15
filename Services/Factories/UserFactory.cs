@@ -1,4 +1,4 @@
-﻿using HealthHub.MVVM.Model;
+﻿using HealthHub.MVVM.Models.AuthInfo;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,17 +10,17 @@ namespace HealthHub.Services.Factories
 {
     public class UserFactory : IUserFactory
     {
-        public IUser? Create(IDataRecord record, string role)
+        public IUserAuthInfo? Create(IDataRecord record, string role)
         {
             return role switch
             {
-                "doctor" => new Doctor(record.GetString(record.GetOrdinal("login")), record.GetString(record.GetOrdinal("password")), record.GetString(record.GetOrdinal("role"))),
-                "admin" => new Admin(record.GetString(record.GetOrdinal("login")), record.GetString(record.GetOrdinal("password"))),
+                "doctor" => new DoctorAuthInfo(record.GetString(record.GetOrdinal("login")), record.GetString(record.GetOrdinal("password")), record.GetInt32(record.GetOrdinal("role"))),
+                "admin" => new AdminAuthInfo(record.GetString(record.GetOrdinal("login")), record.GetString(record.GetOrdinal("password"))),
                 _ => null,
             };
         }
 
-        public IUser? CreateUser(IDataRecord record)
+        public IUserAuthInfo? CreateUser(IDataRecord record)
         {
             throw new NotImplementedException();
         }

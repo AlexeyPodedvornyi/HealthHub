@@ -1,4 +1,4 @@
-﻿using HealthHub.MVVM.Model;
+﻿using HealthHub.MVVM.Models.AuthInfo;
 using HealthHub.MVVM.ViewModel;
 using HealthHub.Services;
 using System;
@@ -34,7 +34,7 @@ namespace HealthHub.MVVM.View
         {
             //var dbService = new User();
             var user = _userService.GetUser(tb1.Text);
-            if(user is Doctor doc) MessageBox.Show($"{doc?.Login}\n {doc?.Password}\n{doc?.Role}");
+            if(user is DoctorAuthInfo doc) MessageBox.Show($"{doc?.Login}\n {doc?.Password}\n{doc?.Role}");
             else MessageBox.Show($"{user?.Login}\n {user?.Password}");
         }
     }

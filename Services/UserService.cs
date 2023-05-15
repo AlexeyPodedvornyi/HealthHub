@@ -1,4 +1,4 @@
-﻿using HealthHub.MVVM.Model;
+﻿using HealthHub.MVVM.Models.AuthInfo;
 using HealthHub.Services.Factories;
 using Npgsql;
 using System;
@@ -19,7 +19,7 @@ namespace HealthHub.Services
             _connectionProviderFactory = connectionProviderFactory;
             _userFactory = userFactory;
         }
-        public IUser? GetUser(string login)
+        public IUserAuthInfo? GetUser(string login)
         {
             var connectionProvider = _connectionProviderFactory.Create("unauthorized");
             if(connectionProvider is null) return null;

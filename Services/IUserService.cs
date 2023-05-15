@@ -1,4 +1,4 @@
-﻿using HealthHub.MVVM.Model;
+﻿using HealthHub.MVVM.Models.AuthInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace HealthHub.Services
 {
     public interface IUserService
     {
-        IUser? GetUser(string login);
+        IUserAuthInfo? GetUser(string login);
     }
 }

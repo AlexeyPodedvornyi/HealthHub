@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthHub.MVVM.Model
+namespace HealthHub.MVVM.Models.AuthInfo
 {
-    public interface IUser
+    public interface IUserAuthInfo
     {
         string Login { get; }
         string Password { get; }

@@ -1,4 +1,4 @@
-﻿using HealthHub.MVVM.Model;
+﻿using HealthHub.MVVM.Models.AuthInfo;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +10,7 @@ namespace HealthHub.Services.Factories
 {
     public interface IUserFactory
     {
-        IUser? CreateUser(IDataRecord record);
-        IUser? Create(IDataRecord record, string role);
+        IUserAuthInfo? CreateUser(IDataRecord record);
+        IUserAuthInfo? Create(IDataRecord record, string role);
     }
 }

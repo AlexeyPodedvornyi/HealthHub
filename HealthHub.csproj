@@ -15,11 +15,21 @@
     <None Remove="Images\back.jpg" />
     <None Remove="Images\calendar.ico" />
     <None Remove="Images\doctor.ico" />
+    <None Remove="Images\doctor2.ico" />
+    <None Remove="Images\exit.ico" />
     <None Remove="Images\heart.ico" />
+    <None Remove="Images\home.ico" />
+    <None Remove="Images\home2.ico" />
     <None Remove="Images\hospital.ico" />
     <None Remove="Images\ico1.ico" />
     <None Remove="Images\ico2.ico" />
+    <None Remove="Images\icon.ico" />
     <None Remove="Images\main.ico" />
+    <None Remove="Images\recipe.ico" />
+    <None Remove="Images\recipe2.ico" />
+    <None Remove="Images\report.ico" />
+    <None Remove="Images\report2.ico" />
+    <None Remove="Images\sickleave.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +41,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageReference Include="Npgsql" Version="7.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,11 +53,21 @@
     <Resource Include="Images\back.jpg" />
     <Resource Include="Images\calendar.ico" />
     <Resource Include="Images\doctor.ico" />
+    <Resource Include="Images\doctor2.ico" />
+    <Resource Include="Images\exit.ico" />
     <Resource Include="Images\heart.ico" />
+    <Resource Include="Images\home.ico" />
+    <Resource Include="Images\home2.ico" />
     <Resource Include="Images\hospital.ico" />
     <Resource Include="Images\ico1.ico" />
     <Resource Include="Images\ico2.ico" />
+    <Resource Include="Images\icon.ico" />
     <Resource Include="Images\main.ico" />
+    <Resource Include="Images\recipe.ico" />
+    <Resource Include="Images\recipe2.ico" />
+    <Resource Include="Images\report.ico" />
+    <Resource Include="Images\report2.ico" />
+    <Resource Include="Images\sickleave.ico" />
   </ItemGroup>
 
 </Project>

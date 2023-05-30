@@ -9,12 +9,9 @@ namespace HealthHub.MVVM.Models.AuthInfo
     public class Role
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public Role(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
+        public virtual ICollection<DocAuthInfo> DocAuthInfos { get; set; } = new List<DocAuthInfo>();
+
     }
 }

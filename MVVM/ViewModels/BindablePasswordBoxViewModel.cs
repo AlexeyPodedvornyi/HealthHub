@@ -13,9 +13,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace HealthHub.MVVM.ViewModel
+namespace HealthHub.MVVM.ViewModels
 {
-    class BindablePasswordBoxViewModel: ObservableObject, IViewModel
+    public class BindablePasswordBoxViewModel: ViewModel
     {
         //Fields
         private SecureString _password;

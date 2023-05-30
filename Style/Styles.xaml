@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:helper="clr-namespace:HealthHub.Helpers" xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+                    xmlns:helper="clr-namespace:HealthHub.Helpers" 
+                    xmlns:customControl="clr-namespace:HealthHub.CustomControls" 
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
     <!--CloseButton-->
     <Style x:Key="AuthCloseButton" TargetType="{x:Type Button}">
         <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -212,5 +214,89 @@
         <Setter Property="Height" Value="85"/>
     </Style>
         
+    <!--Sidebar Button-->
+    <Style x:Key="SidebarButton"  TargetType="customControl:ImageRadioButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="customControl:ImageRadioButton">
+                    <RadioButton Background="{TemplateBinding Background}"
+                             BorderThickness="{TemplateBinding BorderThickness}"
+                             BorderBrush="{TemplateBinding BorderBrush}"
+                             Margin="{TemplateBinding Margin}"
+                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                             Command="{TemplateBinding Command}"
+                             CommandParameter="{TemplateBinding CommandParameter}"
+                             GroupName="{TemplateBinding GroupName}"
+                             x:Name="rb">
+                        <RadioButton.Template>
+                            <ControlTemplate TargetType="RadioButton">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </RadioButton.Template>
+                        <DockPanel  x:Name="but" >
+                            <Image Source="{TemplateBinding ImageSource}" Margin="5 0 0 0"/>
+                            <Label Content="{TemplateBinding LabelContent}" Padding="10" FontSize="16"/>
+                        </DockPanel>
+                    </RadioButton>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="but" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="but" Property="Background" Value="#95defc"/>
+                        </Trigger>
+                        <Trigger SourceName="rb" Property="IsChecked" Value="True">
+                            <Setter TargetName="but" Property="Background" Value="#95defc"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         
+        <Setter Property="Background" Value="#72d3fc"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="BorderThickness" Value="0.3"/>
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="Margin" Value="0 2 0 0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+
+        <!--<Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                    <Condition Property="IsChecked" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="#95defc"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                    <Condition Property="IsChecked" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="#5dbafc"/>
+            </MultiTrigger>
+        </Style.Triggers>-->
+        <!--<Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#95defc"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="#5dbafc"/>
+            </Trigger>
+
+        </Style.Triggers>-->
+    </Style>
+    
+    <!--Image RadioButton-->
+    <!--<Style TargetType="customControl:ImageRadioButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="customControl:ImageRadioButton">
+                    <RadioButton>
+                        <DockPanel>
+                            <Image Source="{TemplateBinding ImageSource}" Margin="5 0 0 0"/>
+                            <Label Content="{TemplateBinding LabelContent}" Padding="10" FontSize="16"/>
+                        </DockPanel>
+                    </RadioButton>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
 </ResourceDictionary>

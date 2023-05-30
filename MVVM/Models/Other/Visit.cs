@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthHub.MVVM.Models.Doctors;
+using HealthHub.MVVM.Models.Patients;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +10,20 @@ namespace HealthHub.MVVM.Models.Other
 {
     public class Visit
     {
-        public int Visit_Id { get; set; }
-        public int Pat_Id { get; set; }
-        public int Doc_Id { get; set; }
-        public DateOnly Visit_Date { get; set; }
-        public bool Active { get; set; }
-        public TimeOnly Visit_Time { get; set; }
+        public int VisitId { get; set; }
 
-        public Visit(int visit_Id, int pat_Id, int doc_Id, DateOnly visit_Date, bool active, TimeOnly visit_Time)
-        {
-            Visit_Id = visit_Id;
-            Pat_Id = pat_Id;
-            Doc_Id = doc_Id;
-            Visit_Date = visit_Date;
-            Active = active;
-            Visit_Time = visit_Time;
-        }
+        public int PatId { get; set; }
+
+        public int DocId { get; set; }
+
+        public DateOnly VisitDate { get; set; }
+
+        public bool? Active { get; set; }
+
+        public DateTimeOffset VisitTime { get; set; }
+
+        public virtual Doctor Doc { get; set; } = null!;
+
+        public virtual Patient Pat { get; set; } = null!;
     }
 }

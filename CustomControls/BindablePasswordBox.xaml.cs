@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthHub.MVVM.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
@@ -21,10 +22,9 @@ namespace HealthHub.CustomControls
     /// </summary>
     public partial class BindablePasswordBox : UserControl
     {
-        public BindablePasswordBox()
+        public BindablePasswordBox( )
         {
             InitializeComponent();
         }
-
     }
 }

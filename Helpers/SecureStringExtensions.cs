@@ -14,7 +14,7 @@ namespace HealthHub.Helpers
         {
             if (secureString == null)
             {
-                throw new ArgumentNullException(nameof(secureString));
+                return String.Empty;
             }
 
             IntPtr unmanagedString = IntPtr.Zero;

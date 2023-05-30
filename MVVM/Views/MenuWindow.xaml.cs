@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthHub.MVVM.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HealthHub.MVVM.View
+namespace HealthHub.MVVM.Views
 {
     /// <summary>
     /// Логика взаимодействия для MenuWindow.xaml
@@ -22,7 +23,6 @@ namespace HealthHub.MVVM.View
         public MenuWindow()
         {
             InitializeComponent();
-            
         }
     }
 }

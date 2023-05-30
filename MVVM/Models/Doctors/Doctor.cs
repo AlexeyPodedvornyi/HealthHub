@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HealthHub.MVVM.Models.AuthInfo;
+using HealthHub.MVVM.Models.Other;
+using HealthHub.MVVM.Models.Patients;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,23 +11,36 @@ namespace HealthHub.MVVM.Models.Doctors
 {
     public class Doctor
     {
-        public int Doc_Id { get; set; }
-        public string First_Name { get; set; }
-        public string Last_Name { get; set; }
-        public int Hospital_Id { get; set; }
-        public int Spec_Id { get; set; }
-        public int Pos_Id { get; set; }
-        public string Middle_Name { get; set; }
+        public int DocId { get; set; }
 
-        public Doctor(int doc_id, string fst_name, string lst_name, string mdl_name, int hospital_id, int spec_id, int pos_id)
-        {
-            Doc_Id = doc_id;
-            First_Name = fst_name;
-            Last_Name = lst_name;
-            Middle_Name = mdl_name;
-            Hospital_Id = hospital_id;
-            Spec_Id = spec_id;
-            Pos_Id = pos_id;
-        }
+        public string FirstName { get; set; } = null!;
+
+        public string LastName { get; set; } = null!;
+
+        public int HospitalId { get; set; }
+
+        public int SpecId { get; set; }
+
+        public int PosId { get; set; }
+
+        public string MiddleName { get; set; } = null!;
+
+        public virtual ICollection<AppointmentSchedule> AppointmentSchedules { get; set; } = new List<AppointmentSchedule>();
+
+        public virtual DocAuthInfo? DocAuthInfo { get; set; }
+
+        public virtual ICollection<DoctorSupervision> DoctorSupervisions { get; set; } = new List<DoctorSupervision>();
+
+        public virtual ICollection<Family> Families { get; set; } = new List<Family>();
+
+        public virtual Hospital Hospital { get; set; } = null!;
+        public virtual Position Pos { get; set; } = null!;
+        public virtual ICollection<Recipe> Recipies { get; set; } = new List<Recipe>();
+
+        public virtual ICollection<SickLeave> SickLeavs { get; set; } = new List<SickLeave>();
+
+        public virtual Specialty Spec { get; set; } = null!;
+
+        public virtual ICollection<Visit> Visits { get; set; } = new List<Visit>();
     }
 }

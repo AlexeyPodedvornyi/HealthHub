@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace HealthHub.MVVM.Models.AuthInfo
 {
-    [Serializable]
     public class AdminAuthInfo : IUserAuthInfo
     {
-        public string Login { get; private set; }
-        public string Password { get; private set; }
+        public int Id { get; set; }
 
-        public AdminAuthInfo(string login, string password)
-        {
-            Login = login;
-            Password = password;
-        }
+        public string Login { get; set; } = null!;
+
+        public string Password { get; set; } = null!;
 
     }
 }

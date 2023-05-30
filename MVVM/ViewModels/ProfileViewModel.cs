@@ -1,14 +1,12 @@
-﻿using HealthHub.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthHub.MVVM.ViewModel
+namespace HealthHub.MVVM.ViewModels
 {
-    public interface IViewModel
+    public class ProfileViewModel: ViewModel
     {
-
     }
 }

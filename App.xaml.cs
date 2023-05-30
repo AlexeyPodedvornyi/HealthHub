@@ -1,5 +1,5 @@
-﻿using HealthHub.MVVM.ViewModel;
-using HealthHub.MVVM.View;
+﻿using HealthHub.MVVM.ViewModels;
+using HealthHub.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using HealthHub.Services.Factories;
 using HealthHub.Services;
+using HealthHub.Data;
+using Microsoft.EntityFrameworkCore;
+using HealthHub.Data.Repositories.AuthInfo;
+using HealthHub.MVVM.Models.AuthInfo;
+using System.ComponentModel;
 
 namespace HealthHub
 {
@@ -23,21 +28,33 @@ namespace HealthHub
 
         public App()
         {
-
             IServiceCollection services = new ServiceCollection();
-            //services.AddSingleton<MVVM.View.AuthWindow>(provider => new MVVM.View.AuthWindow{ DataContext = provider.GetService<AuthViewModel>()});
+
+            // Windows & Views
+            services.AddSingleton<AuthWindow>(provider => new AuthWindow{ DataContext = provider.GetService<AuthViewModel>()});
+            services.AddTransient<MenuWindow>();
+
+            // ViewModels
             services.AddTransient<AuthViewModel>();
-            services.AddTransient<BindablePasswordBoxViewModel>();
-            services.AddTransient<IUserFactory, UserFactory>();
-            services.AddTransient<IConnectionProvider, ConnectionProvider>();
-            services.AddTransient<IConnectionProviderFactory, ConnectionProviderFactory>();
+            services.AddTransient<MenuViewModel>();
+            services.AddSingleton<BindablePasswordBoxViewModel>();
 
-         //   services.AddTransient<IUserFactory, AdminFactory>();
-         //   services.AddTransient<IUserFactory, DoctorFactory>();
+            //Services
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<INavigationService, NavigationService>();
+            services.AddTransient<IAuthorizationService, AuthorizationService>();          
+            services.AddTransient<IDialogService, DialogService>();
 
-            
-            services.AddSingleton<IUserService,UserService>();
+            // Data & Repositpries
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<AdminAuthInfoRepository>();
+            services.AddTransient<DocAuthInfoRepository>();
 
+            services.AddTransient<DbContext, HospitalContext>(provider => provider.GetRequiredService<HospitalContextFactory>().CreateDbContext(null));
+
+            // Factories
+            services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+            services.AddScoped<HospitalContextFactory>();
 
             _serviceProvider = services.BuildServiceProvider();
         }
@@ -45,12 +62,7 @@ namespace HealthHub
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
-            var startWindow = new MVVM.View.AuthWindow(_serviceProvider.GetService<IUserService>()!)
-            {
-                DataContext = _serviceProvider.GetService<AuthViewModel>()
-            };
-
+            var startWindow = _serviceProvider.GetRequiredService<MenuWindow>();
             startWindow.Show();
         }
     }

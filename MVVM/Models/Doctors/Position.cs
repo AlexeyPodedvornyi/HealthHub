@@ -8,13 +8,10 @@ namespace HealthHub.MVVM.Models.Doctors
 {
     public class Position
     {
-        public int Pos_Id { get; set; }
-        public string Post { get; set; }
+        public int PosId { get; set; }
 
-        public Position(int pos_Id, string post)
-        {
-            Pos_Id = pos_Id;
-            Post = post;
-        }
+        public string Post { get; set; } = null!;
+
+        public virtual ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
     }
 }

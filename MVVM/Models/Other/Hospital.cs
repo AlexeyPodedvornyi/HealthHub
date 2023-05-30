@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthHub.MVVM.Models.Doctors;
+using HealthHub.MVVM.Models.Patients;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +10,18 @@ namespace HealthHub.MVVM.Models.Other
 {
     public class Hospital
     {
-        public int Hospital_Id { get; set; }
-        public string Address { get; set; }
-        public int City_Id { get; set; }
-        public string Hospital_Name { get; set; }
+        public int HospitalId { get; set; }
 
-        public Hospital(int hospital_Id, string address, int city_Id, string hospital_Name)
-        {
-            Hospital_Id = hospital_Id;
-            Address = address;
-            City_Id = city_Id;
-            Hospital_Name = hospital_Name;
-        }
+        public string Address { get; set; } = null!;
+
+        public int CityId { get; set; }
+
+        public string HospitalName { get; set; } = null!;
+
+        public virtual City City { get; set; } = null!;
+
+        public virtual ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
+
+        public virtual ICollection<SickLeave> SickLeavs { get; set; } = new List<SickLeave>();
     }
 }

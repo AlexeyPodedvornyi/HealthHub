@@ -8,13 +8,10 @@ namespace HealthHub.MVVM.Models.Doctors
 {
     public class Specialty
     {
-        public string Spec_Id { get; set; }
-        public string Spec_Name { get; set; }
+        public int SpecId { get; set; }
 
-        public Specialty(string spec_Id, string spec_Name)
-        {
-            Spec_Id = spec_Id;
-            Spec_Name = spec_Name;
-        }
+        public string SpecName { get; set; } = null!;
+
+        public virtual ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
     }
 }

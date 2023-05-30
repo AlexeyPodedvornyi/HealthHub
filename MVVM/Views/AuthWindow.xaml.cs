@@ -1,6 +1,10 @@
-﻿using HealthHub.MVVM.Models.AuthInfo;
-using HealthHub.MVVM.ViewModel;
+﻿using HealthHub.Data;
+using HealthHub.Data.Repositories.AuthInfo;
+using HealthHub.Helpers;
+using HealthHub.MVVM.Models.AuthInfo;
+using HealthHub.MVVM.ViewModels;
 using HealthHub.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,26 +20,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HealthHub.MVVM.View
+namespace HealthHub.MVVM.Views
 {
     /// <summary>
     /// Interaction logic for AuthWindow.xaml
     /// </summary>
     public partial class AuthWindow : Window
     {
-        IUserService _userService;
-        public AuthWindow(IUserService userService)
+        public AuthWindow( )
         {
             InitializeComponent();
-            _userService = userService;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //var dbService = new User();
-            var user = _userService.GetUser(tb1.Text);
-            if(user is DoctorAuthInfo doc) MessageBox.Show($"{doc?.Login}\n {doc?.Password}\n{doc?.Role}");
-            else MessageBox.Show($"{user?.Login}\n {user?.Password}");
         }
     }
 }

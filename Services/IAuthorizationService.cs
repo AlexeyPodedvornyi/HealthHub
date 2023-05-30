@@ -1,5 +1,4 @@
-﻿using HealthHub.MVVM.Models.AuthInfo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace HealthHub.Services
 {
-    public interface IUserService
+    public interface IAuthorizationService
     {
-        IUserAuthInfo? GetUser(string login);
+        Task<bool> IsAccessGrantedAsync(string login, string password);
     }
 }

@@ -7,11 +7,8 @@
         xmlns:customControls="clr-namespace:HealthHub.CustomControls"
         xmlns:viewModels="clr-namespace:HealthHub.MVVM.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MenuWindow" Height="450" Width="800" WindowStyle="None">
-
-    <Window.DataContext>
-        <viewModels:MenuViewModel/>
-    </Window.DataContext>
+        Title="MenuWindow" Height="450" Width="850" WindowStyle="None"
+        ResizeMode="NoResize">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -36,104 +33,70 @@
                     Command="{Binding CloseAppCommand}"/>
         </DockPanel>
 
-        <Border x:Name="SidebarBorder"
+        <customControls:AnimatedSidebar Panel.ZIndex="2"
                 Grid.Row="1"
                 Width="50"
                 HorizontalAlignment="Left"
-                Background="#4fc6f7"
-                >
-            <StackPanel Grid.Row="1" 
-                        Background="Transparent"
-                        HorizontalAlignment="Left"
-                        x:Name="Sidebar"
-                        Width="170"
-                        Margin="0 10 0 0">
-                
-                <customControls:ImageRadioButton  Style="{StaticResource SidebarButton}"
-                    ImageSource="/Images/doctor2.ico" 
-                    LabelContent="Профіль"
-                    Command="{Binding CheckNavigationButtonCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                    x:Name="rb_Profile"
-                    GroupName="NavigationButtons"/>
-                <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
-                    ImageSource="/Images/home2.ico" 
-                    LabelContent="Головна"
-                    Command="{Binding CheckNavigationButtonCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                    x:Name="rb_Main"
-                                                 GroupName="NavigationButtons"
-                    />
-                <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
-                    ImageSource="/Images/recipe2.ico" 
-                    LabelContent="Рецепти"
-                    Command="{Binding CheckNavigationButtonCommand}"
-                                                 GroupName="NavigationButtons"
-                    />
-                <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
-                    ImageSource="/Images/sickleave.ico" 
-                    LabelContent="Лікарняні"
-                    Command="{Binding CheckNavigationButtonCommand}"
-                                                 GroupName="NavigationButtons"
-                    />
-                <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
-                    ImageSource="/Images/report2.ico" 
-                    LabelContent="Стан здоров'я"
-                    Command="{Binding CheckNavigationButtonCommand}"
-                                                 GroupName="NavigationButtons"
-                    />
-                <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
-                    ImageSource="/Images/exit.ico" 
-                    LabelContent="Вихід"
-                    Command="{Binding CheckNavigationButtonCommand}"
-                                                 GroupName="NavigationButtons"
-                    />
-
-            </StackPanel>
-           
-            <!--Animation status Trigger-->
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseEnter">
-                    <i:InvokeCommandAction Command="{Binding SidebarMouseEnterCommand}" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseLeave">
-                    <i:InvokeCommandAction Command="{Binding SidebarMouseLeaveCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                DataContext="{Binding AnimatedSidebarViewModel}"
+                                        Background="#59cdff">
             
-            <!--Sidebar(Border) Animation-->
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Width" Value="50" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSidebarExpanded}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                 Duration="0:0:0.3"
-                                                 To="170" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                 Duration="0:0:0.4"
-                                                 To="50" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-        </Border>
+            <customControls:AnimatedSidebar.SidebarContent>
+                <StackPanel>
+                    <!--To switch ViewModel from parent element AnimatedSidebar,
+                    RelativeSource AncestorType was used to indicate default current Window`s ViewModel 
+                    -->
+                    <customControls:ImageRadioButton  Style="{StaticResource SidebarButton}"
+                        ImageSource="/Images/doctor2.ico" 
+                        LabelContent="Профіль"
+                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        GroupName="NavigationButtons"
+                         />
+                    <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
+                        ImageSource="/Images/home2.ico" 
+                        LabelContent="Головна"
+                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        GroupName="NavigationButtons"
+                        IsChecked="True"
+                        />
+                    <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
+                        ImageSource="/Images/med_card.png" 
+                        LabelContent="Медична картка"
+                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        GroupName="NavigationButtons"
+                        />
+                    <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
+                        ImageSource="/Images/recipe2.ico" 
+                        LabelContent="Рецепти"
+                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        GroupName="NavigationButtons"
+                        />
+                    <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
+                        ImageSource="/Images/sickleave.ico" 
+                        LabelContent="Лікарняні"
+                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        GroupName="NavigationButtons"
+                        />
+                    <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
+                        ImageSource="/Images/report2.ico" 
+                        LabelContent="Стан здоров'я"
+                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        GroupName="NavigationButtons"
+                        />
+                    
+                    <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
+                        ImageSource="/Images/exit.ico" 
+                        LabelContent="Вихід"
+                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        GroupName="NavigationButtons"
+                        />
+                </StackPanel>
+            </customControls:AnimatedSidebar.SidebarContent>
+        </customControls:AnimatedSidebar>
 
-        <ContentControl Grid.Row="2" 
+        <ContentControl Grid.Row="1" Grid.ColumnSpan="2" Panel.ZIndex="1"
                         Background="Transparent"
-                        Content="{Binding CurrentView}"
+                        Margin="50 0 0 0"
+                        Content="{Binding Navigation.CurrentView}"
                         />
     </Grid>
 </Window>

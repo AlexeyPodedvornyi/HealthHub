@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Windows.Xps.Serialization;
 using HealthHub.Data;
 using HealthHub.MVVM.Models.AuthInfo;
+using HealthHub.Services.Interfaces;
 
 namespace HealthHub.Services
 {

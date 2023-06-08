@@ -34,10 +34,12 @@ namespace HealthHub.MVVM.Models.Doctors
         public virtual ICollection<Family> Families { get; set; } = new List<Family>();
 
         public virtual Hospital Hospital { get; set; } = null!;
-        public virtual Position Pos { get; set; } = null!;
-        public virtual ICollection<Recipe> Recipies { get; set; } = new List<Recipe>();
 
-        public virtual ICollection<SickLeave> SickLeavs { get; set; } = new List<SickLeave>();
+        public virtual ICollection<PatientTreatment> PatientTreatments { get; set; } = new List<PatientTreatment>();
+
+        public virtual Position Pos { get; set; } = null!;
+
+        public virtual ICollection<Recipe> Recipies { get; set; } = new List<Recipe>();
 
         public virtual Specialty Spec { get; set; } = null!;
 

@@ -1,6 +1,7 @@
 ﻿using HealthHub.Core;
 using HealthHub.MVVM.ViewModels;
 using HealthHub.Services.Factories;
+using HealthHub.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,16 @@ namespace HealthHub.Services
         public void NavigateTo<T>() where T : ViewModel
         {
             var viewModel = _viewModelFactory.CreateViewModel<T>();
+            CurrentView = viewModel;
+        }
+
+        public void NavigateTo<T>(object parameter) where T : ViewModel, IParameterizedNavigationViewModel
+        {
+            var viewModel = _viewModelFactory.CreateViewModel<T>();
+            if (viewModel is IParameterizedNavigationViewModel parametricViewModel)
+            {
+                parametricViewModel.InitializeParameters(parameter);
+            }
             CurrentView = viewModel;
         }
 

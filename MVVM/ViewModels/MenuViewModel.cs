@@ -1,6 +1,7 @@
 ﻿using HealthHub.Data;
 using HealthHub.MVVM.Commands;
-using HealthHub.Services;
+using HealthHub.MVVM.ViewModels.Controls;
+using HealthHub.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,22 +17,9 @@ namespace HealthHub.MVVM.ViewModels
     public class MenuViewModel : ViewModel
     {
         //Fields
-        private bool _isSidebarExpanded;
         private INavigationService _navigation;
 
         //Properties
-        public bool IsSidebarExpanded
-        {
-            get => _isSidebarExpanded;
-            set
-            {
-                if (_isSidebarExpanded != value)
-                {
-                    _isSidebarExpanded = value;
-                    OnPropertyChanged(nameof(IsSidebarExpanded));
-                }
-            }
-        }
         public INavigationService Navigation
         {
             get => _navigation;
@@ -41,14 +29,11 @@ namespace HealthHub.MVVM.ViewModels
                 OnPropertyChanged(nameof(Navigation));
             }
         }
-
+        public AnimatedSidebarViewModel AnimatedSidebarViewModel{ get; }
 
         //Commands
         public ICommand MoveWindowCommand { get; }
         public ICommand CloseAppCommand { get; }
-        public ICommand SidebarMouseEnterCommand { get; }
-        public ICommand SidebarMouseLeaveCommand { get; }
-        public ICommand CheckNavigationButtonCommand { get; }
 
         //Navigation commands
         public ICommand NavigateHomeCommand { get; }
@@ -58,9 +43,11 @@ namespace HealthHub.MVVM.ViewModels
         public ICommand NavigateReportCommand { get; }
        
         //Constructors
-        public MenuViewModel(INavigationService navigationService)
+        public MenuViewModel(INavigationService navigationService, AnimatedSidebarViewModel animatedSidebarViewModel)
         {
-            Navigation = navigationService;
+            //Injections
+            _navigation = navigationService;
+            AnimatedSidebarViewModel = animatedSidebarViewModel;
 
             //Navigation commands
             NavigateHomeCommand = new RelayCommand(execute => Navigation.NavigateTo<HomeViewModel>());
@@ -72,45 +59,9 @@ namespace HealthHub.MVVM.ViewModels
             //Other commads
             MoveWindowCommand = new MoveWindowCommand();
             CloseAppCommand = new RelayCommand(execute => Application.Current.Shutdown());
-            SidebarMouseEnterCommand = new RelayCommand(execute => OnSidebarMouseEnter());
-            SidebarMouseLeaveCommand = new RelayCommand(execute => OnSidebarMouseLeave());
-            CheckNavigationButtonCommand = new RelayCommand(CheckNavigationButtonHandler);
-        }
 
-        //Methods
-        private void OnSidebarMouseEnter()
-        {
-            IsSidebarExpanded = true;
-        }
-
-        private void OnSidebarMouseLeave()
-        {
-            IsSidebarExpanded = false;
-        }
-
-        private void CheckNavigationButtonHandler(object sender)
-        {
-            //if(sender is RadioButton radioButton)
-            //{
-            //    if (ActivenNavigationButton == radioButton) 
-            //        return;
-
-            //    if(ActivenNavigationButton != null)
-            //    {
-            //        MessageBox.Show(ActivenNavigationButton.Name + "\n" + radioButton.Name);
-            //        ActivenNavigationButton.IsChecked = false;
-            //        radioButton.IsChecked = true;
-            //        ActivenNavigationButton = radioButton;
-                    
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show(ActivenNavigationButton?.Name + "\n" + radioButton.Name);
-
-            //        radioButton.IsChecked = true;
-            //        ActivenNavigationButton = radioButton;
-            //    }
-            //}
+            //Other code
+            NavigateHomeCommand.Execute(null);
         }
     }
 }

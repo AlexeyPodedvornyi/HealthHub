@@ -21,6 +21,8 @@ namespace HealthHub.MVVM.Models.Doctors
 
         public virtual Doctor Doc { get; set; } = null!;
 
+        public virtual ICollection<MedicalHistory> MedicalHistories { get; set; } = new List<MedicalHistory>();
+
         public virtual Patient Pat { get; set; } = null!;
     }
 }

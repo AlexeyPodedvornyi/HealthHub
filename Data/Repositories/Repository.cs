@@ -17,9 +17,9 @@ namespace HealthHub.Data.Repositories
             _hospitalContext = hospitalContext;
             
         }
-        public void Add(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
-            _hospitalContext.Set<TEntity>().Add(entity);
+            await _hospitalContext.Set<TEntity>().AddAsync(entity);
         }
 
         public void Delete(TEntity entity)
@@ -27,14 +27,14 @@ namespace HealthHub.Data.Repositories
             _hospitalContext.Set<TEntity>().Remove(entity);
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity?> GetByIdAsync(int id)
         {
-            return _hospitalContext.Set<TEntity>().Find(id)!;
+            return await _hospitalContext.Set<TEntity>().FindAsync(id);
         }
 
         public void Update(TEntity entity)
         {
-            _hospitalContext?.Set<TEntity>().Update(entity);
+            _hospitalContext.Set<TEntity>().Update(entity);
         }
     }
 }

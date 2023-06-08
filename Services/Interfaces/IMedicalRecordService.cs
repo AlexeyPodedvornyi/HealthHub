@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthHub.Services
+namespace HealthHub.Services.Interfaces
 {
-    public interface ICurrentUserService
+    public interface IMedicalRecordService
     {
-        string CurrentRole { get; set; }
+        Task<int> GetRecordIdAsync(int patientId);
+
     }
 }

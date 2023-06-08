@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthHub.MVVM.Models.Other
 {
-    public class Visit
+    public partial class Visit
     {
         public int VisitId { get; set; }
 
@@ -23,6 +23,8 @@ namespace HealthHub.MVVM.Models.Other
         public DateTimeOffset VisitTime { get; set; }
 
         public virtual Doctor Doc { get; set; } = null!;
+
+        public virtual ICollection<MedicalHistory> MedicalHistories { get; set; } = new List<MedicalHistory>();
 
         public virtual Patient Pat { get; set; } = null!;
     }

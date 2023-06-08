@@ -1,0 +1,60 @@
+﻿<Border x:Class="HealthHub.CustomControls.AnimatedSidebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HealthHub.CustomControls" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="150"
+             x:Name="SidebarBorder"
+             Background="#4fc6f7">
+
+    <ItemsControl
+                Background="Transparent"
+                HorizontalAlignment="Left"
+                x:Name="Sidebar"
+                Width="170"
+                Margin="0 10 0 0">
+        <ContentPresenter Content="{Binding SidebarContent, ElementName=SidebarBorder}"/>
+    </ItemsControl>
+
+    <!--Animation status Trigger-->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseEnter">
+            <i:InvokeCommandAction Command="{Binding SidebarMouseEnterCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="MouseLeave">
+            <i:InvokeCommandAction Command="{Binding SidebarMouseLeaveCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <!--Sidebar(Border) Animation-->
+    <Border.Style>
+        <Style TargetType="Border">
+            <Setter Property="Width" Value="50" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSidebarExpanded}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                 Duration="0:0:0.3"
+                                                 To="170" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                 Duration="0:0:0.4"
+                                                 To="50" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Border.Style>
+</Border>

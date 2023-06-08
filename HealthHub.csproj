@@ -17,6 +17,7 @@
     <None Remove="Images\doctor.ico" />
     <None Remove="Images\doctor2.ico" />
     <None Remove="Images\exit.ico" />
+    <None Remove="Images\exit2.ico" />
     <None Remove="Images\heart.ico" />
     <None Remove="Images\home.ico" />
     <None Remove="Images\home2.ico" />
@@ -25,10 +26,14 @@
     <None Remove="Images\ico2.ico" />
     <None Remove="Images\icon.ico" />
     <None Remove="Images\main.ico" />
+    <None Remove="Images\med_card.ico" />
+    <None Remove="Images\med_card.png" />
+    <None Remove="Images\med_folder.ico" />
     <None Remove="Images\recipe.ico" />
     <None Remove="Images\recipe2.ico" />
     <None Remove="Images\report.ico" />
     <None Remove="Images\report2.ico" />
+    <None Remove="Images\search.ico" />
     <None Remove="Images\sickleave.ico" />
   </ItemGroup>
 
@@ -55,6 +60,7 @@
     <Resource Include="Images\doctor.ico" />
     <Resource Include="Images\doctor2.ico" />
     <Resource Include="Images\exit.ico" />
+    <Resource Include="Images\exit2.ico" />
     <Resource Include="Images\heart.ico" />
     <Resource Include="Images\home.ico" />
     <Resource Include="Images\home2.ico" />
@@ -63,10 +69,14 @@
     <Resource Include="Images\ico2.ico" />
     <Resource Include="Images\icon.ico" />
     <Resource Include="Images\main.ico" />
+    <Resource Include="Images\med_card.ico" />
+    <Resource Include="Images\med_card.png" />
+    <Resource Include="Images\med_folder.ico" />
     <Resource Include="Images\recipe.ico" />
     <Resource Include="Images\recipe2.ico" />
     <Resource Include="Images\report.ico" />
     <Resource Include="Images\report2.ico" />
+    <Resource Include="Images\search.ico" />
     <Resource Include="Images\sickleave.ico" />
   </ItemGroup>
 

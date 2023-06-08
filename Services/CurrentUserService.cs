@@ -1,4 +1,5 @@
 ﻿using HealthHub.Services.Factories;
+using HealthHub.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,11 @@ namespace HealthHub.Services
         public string CurrentRole { get; set; }
 
         public CurrentUserService()
-        {
-            CurrentRole = "unauthorized";
+        {   
+            // Uncoment when authWindow is the startup Window
+            //CurrentRole = "unauthorized";
+            CurrentRole = "doctor";
+
         }
 
     }

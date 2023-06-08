@@ -1,8 +1,6 @@
 ﻿using HealthHub.Core;
 using HealthHub.MVVM.Commands;
 using HealthHub.MVVM.Views;
-using HealthHub.MVVM.ViewModels;
-using HealthHub.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +13,8 @@ using System.Windows.Input;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security;
 using HealthHub.Helpers;
+using HealthHub.Services.Interfaces;
+using HealthHub.MVVM.ViewModels.Controls;
 
 namespace HealthHub.MVVM.ViewModels
 {

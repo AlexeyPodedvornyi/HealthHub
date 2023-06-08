@@ -2,10 +2,11 @@
 using HealthHub.MVVM.Models.Doctors;
 using HealthHub.MVVM.Models.Other;
 using HealthHub.MVVM.Models.Patients;
-using HealthHub.Services;
+using HealthHub.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,13 @@ namespace HealthHub.Data
 
         public virtual DbSet<Hospital> Hospitals { get; set; }
 
+        public virtual DbSet<MedicalHistory> MedicalHistories { get; set; }
+
+        public virtual DbSet<MedicalRecord> MedicalRecords { get; set; }
+
         public virtual DbSet<Patient> Patients { get; set; }
+
+        public virtual DbSet<PatientTreatment> PatientTreatments { get; set; }
 
         public virtual DbSet<Position> Positions { get; set; }
 
@@ -292,6 +299,57 @@ namespace HealthHub.Data
                     .HasConstraintName("city_id");
             });
 
+            modelBuilder.Entity<MedicalHistory>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("medicalHistories_pkey");
+
+                entity.ToTable("medicalHistories");
+
+                entity.Property(e => e.Id)
+                    .UseIdentityAlwaysColumn()
+                    .HasColumnName("id");
+                entity.Property(e => e.MedicalRecordId).HasColumnName("medicalRecord_id");
+                entity.Property(e => e.SupervisionId).HasColumnName("supervision_id");
+                entity.Property(e => e.TreatmentId).HasColumnName("treatment_id");
+                entity.Property(e => e.VisitId).HasColumnName("visit_id");
+
+                entity.HasOne(d => d.MedicalRecord).WithMany(p => p.MedicalHistories)
+                    .HasForeignKey(d => d.MedicalRecordId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_medicalRecord_id");
+
+                entity.HasOne(d => d.Supervision).WithMany(p => p.MedicalHistories)
+                    .HasForeignKey(d => d.SupervisionId)
+                    .HasConstraintName("fk_supervision_id");
+
+                entity.HasOne(d => d.Treatment).WithMany(p => p.MedicalHistories)
+                    .HasForeignKey(d => d.TreatmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_treatment_id");
+
+                entity.HasOne(d => d.Visit).WithMany(p => p.MedicalHistories)
+                    .HasForeignKey(d => d.VisitId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_visit_id");
+            });
+
+            modelBuilder.Entity<MedicalRecord>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("medicalRecord _pkey");
+
+                entity.ToTable("medicalRecords");
+
+                entity.Property(e => e.Id)
+                    .UseIdentityAlwaysColumn()
+                    .HasColumnName("id");
+                entity.Property(e => e.PatId).HasColumnName("pat_id");
+
+                entity.HasOne(d => d.Pat).WithMany(p => p.MedicalRecords)
+                    .HasForeignKey(d => d.PatId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_pat_id");
+            });
+
             modelBuilder.Entity<Patient>(entity =>
             {
                 entity.HasKey(e => e.PatId).HasName("Patients_pkey");
@@ -323,6 +381,10 @@ namespace HealthHub.Data
                 entity.Property(e => e.LastName)
                     .HasMaxLength(16)
                     .HasColumnName("last_name");
+                entity.Property(e => e.MiddleName)
+                    .HasMaxLength(20)
+                    .IsFixedLength()
+                    .HasColumnName("middle_name");
                 entity.Property(e => e.Password)
                     .HasMaxLength(256)
                     .HasColumnName("password");
@@ -338,6 +400,38 @@ namespace HealthHub.Data
                 entity.HasOne(d => d.Family).WithMany(p => p.Patients)
                     .HasForeignKey(d => d.FamilyId)
                     .HasConstraintName("family_id");
+            });
+
+            modelBuilder.Entity<PatientTreatment>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("patientTreatments_pkey");
+
+                entity.ToTable("patientTreatments");
+
+                entity.Property(e => e.Id)
+                    .UseIdentityAlwaysColumn()
+                    .HasColumnName("id");
+                entity.Property(e => e.Diagnosis)
+                    .HasMaxLength(500)
+                    .HasColumnName("diagnosis");
+                entity.Property(e => e.DocId).HasColumnName("doc_id");
+                entity.Property(e => e.HealthIssues)
+                    .HasMaxLength(500)
+                    .HasColumnName("health_issues");
+                entity.Property(e => e.PatId).HasColumnName("pat_id");
+                entity.Property(e => e.TreatmentProtocol)
+                    .HasMaxLength(500)
+                    .HasColumnName("treatment_protocol");
+
+                entity.HasOne(d => d.Doc).WithMany(p => p.PatientTreatments)
+                    .HasForeignKey(d => d.DocId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_doc_id");
+
+                entity.HasOne(d => d.Pat).WithMany(p => p.PatientTreatments)
+                    .HasForeignKey(d => d.PatId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_pat_id");
             });
 
             modelBuilder.Entity<Position>(entity =>
@@ -392,7 +486,7 @@ namespace HealthHub.Data
 
                 entity.Property(e => e.Name).HasMaxLength(30);
                 entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
+                    .ValueGeneratedOnAdd()
                     .UseIdentityAlwaysColumn()
                     .HasColumnName("id");
             });
@@ -406,29 +500,20 @@ namespace HealthHub.Data
                 entity.Property(e => e.Id)
                     .UseIdentityAlwaysColumn()
                     .HasColumnName("id");
-                entity.Property(e => e.Diagnosis)
-                    .HasMaxLength(50)
-                    .HasColumnName("diagnosis");
-                entity.Property(e => e.DocId).HasColumnName("doc_id");
                 entity.Property(e => e.EndTerm).HasColumnName("end_term");
                 entity.Property(e => e.HospitalId).HasColumnName("hospital_id");
-                entity.Property(e => e.PatId).HasColumnName("pat_id");
                 entity.Property(e => e.StartTerm).HasColumnName("start_term");
-
-                entity.HasOne(d => d.Doc).WithMany(p => p.SickLeavs)
-                    .HasForeignKey(d => d.DocId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("doc_id");
+                entity.Property(e => e.TreatmentId).HasColumnName("treatment_id");
 
                 entity.HasOne(d => d.Hospital).WithMany(p => p.SickLeavs)
                     .HasForeignKey(d => d.HospitalId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("hospital_id");
 
-                entity.HasOne(d => d.Pat).WithMany(p => p.SickLeavs)
-                    .HasForeignKey(d => d.PatId)
+                entity.HasOne(d => d.Treatment).WithMany(p => p.SickLeavs)
+                    .HasForeignKey(d => d.TreatmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("pat_id");
+                    .HasConstraintName("fk_treatment_id");
             });
 
             modelBuilder.Entity<Specialty>(entity =>

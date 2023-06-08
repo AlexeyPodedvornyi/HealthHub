@@ -1,4 +1,7 @@
 ﻿using HealthHub.Data.Repositories.AuthInfo;
+using HealthHub.Data.Repositories.Doctors;
+using HealthHub.Data.Repositories.Other;
+using HealthHub.Data.Repositories.Patients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +14,15 @@ namespace HealthHub.Data
     {
         AdminAuthInfoRepository AdminAuthInfoRepository { get; }
         DocAuthInfoRepository DocAuthInfoRepository { get;  }
+        PatientRepository PatientRepository { get; }
+        CityRepository CityRepository { get; }
+        PatientTreatmentRepository PatientTreatmentRepository { get; }
+        MedicalRecordRepository MedicalRecordRepository { get; }
+        MedicalHistoryRepository MedicalHistoryRepository { get; }
+        VisitRepository VisitRepository { get; }
+        DoctorSupervisionRepository DoctorSupervisionRepository { get; }
+        DoctorRepository DoctorRepository { get; }
+        SpecialtyRepository SpecialtyRepository { get; }
         void Commit();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using HealthHub.Services.Interfaces;
 
 namespace HealthHub.Services
 {

@@ -8,9 +8,10 @@ namespace HealthHub.Data.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        void Add(TEntity entity);
-        void Update(TEntity entity);
+        Task AddAsync(TEntity entity);
         void Delete(TEntity entity);
-        TEntity GetById(int id);
+        Task<TEntity?> GetByIdAsync(int id);
+        void Update(TEntity entity);
+
     }
 }

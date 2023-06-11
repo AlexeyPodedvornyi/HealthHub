@@ -17,6 +17,12 @@ namespace HealthHub.Data.Repositories
             _hospitalContext = hospitalContext;
             
         }
+
+        public void Add(TEntity entity)
+        {
+            _hospitalContext.Set<TEntity>().Add(entity);
+        }
+
         public async Task AddAsync(TEntity entity)
         {
             await _hospitalContext.Set<TEntity>().AddAsync(entity);

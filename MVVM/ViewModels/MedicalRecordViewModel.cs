@@ -4,10 +4,12 @@ using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using HealthHub.MVVM.Commands;
 using HealthHub.MVVM.ViewModels.Presentations;
+using HealthHub.MVVM.Views;
 using HealthHub.Services.Interfaces;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -16,8 +18,8 @@ namespace HealthHub.MVVM.ViewModels
     public class MedicalRecordViewModel : ViewModel, IParameterizedNavigationViewModel
     {
         private PatientPresentation _patient;
-        private MedicalHistoryPresentation _medicalHistoryPresentation;
         private readonly IMedicalHistoryService _medicalHistoryService;
+        private readonly MedicalRecordAddViewModel _medicalRecordAddViewModel;
         private List<MedicalHistoryPresentation> _medicalHistoryPresentations;
         private MedicalHistoryPresentation _selectedListItem;
 
@@ -30,6 +32,14 @@ namespace HealthHub.MVVM.ViewModels
 
                 return fullname + "\t" + Patient.Gender + "\t" + Patient.DateOfBirthday;
             } 
+        }
+
+        public string OwnerAddress
+        {
+            get
+            {
+                return Patient.CityName + "\n" + Patient.Address;
+            }
         }
 
         public MedicalHistoryPresentation SelectedListItem
@@ -56,10 +66,16 @@ namespace HealthHub.MVVM.ViewModels
             get => _patient;
         }
 
-        ICommand InitListCommand { get; set; }
-        public MedicalRecordViewModel(IMedicalHistoryService medicalHistoryService)
+        public ICommand InitListCommand { get; set; }
+        public ICommand RefreshListCommand { get; set; }
+        public ICommand OpenAddWindowCommand { get;}
+        public MedicalRecordViewModel(IMedicalHistoryService medicalHistoryService, MedicalRecordAddViewModel recordAddViewModel)
         {
             _medicalHistoryService = medicalHistoryService;
+            _medicalRecordAddViewModel = recordAddViewModel;
+            OpenAddWindowCommand = new RelayCommand(execute => OpenAddWindow());
+            InitListCommand = new RelayCommand(async exec => await InitListAsync());
+            RefreshListCommand = new RelayCommand(async exec => await InitListAsync());
         }
 
         public void InitializeParameters(object parameter)
@@ -69,15 +85,21 @@ namespace HealthHub.MVVM.ViewModels
                 _patient = patient;
             }
 
-            InitListCommand = new RelayCommand(async exec => await InitListAsync());
             InitListCommand.Execute(null);
         }
-
-
 
         private async Task InitListAsync()
         {
             MedicalHistoryPresentations = await _medicalHistoryService.GetPatientHistoryAsync(Patient.PatId);
+        }
+
+        private void OpenAddWindow()
+        {
+            _medicalRecordAddViewModel.PatientId = Patient.PatId;
+            var addWindow = new MedicalRecordAddWindow { DataContext = _medicalRecordAddViewModel };
+            addWindow.ShowDialog();
+
+            InitListCommand.Execute(null);
         }
     }
 }

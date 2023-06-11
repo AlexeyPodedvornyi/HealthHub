@@ -25,5 +25,23 @@ namespace HealthHub.Data.Repositories.Other
 
             return (visit.DocId, visit.VisitDate);
         }
+
+        public async Task<int> GetVisitIdAsync(int patientId, int doctorId, DateOnly currentDate)
+        {
+            bool isVisitExists = await _dbContext.Set<Visit>()
+                .AnyAsync(visit => visit.PatId == patientId && visit.DocId == doctorId && visit.VisitDate == currentDate);
+
+            if (!isVisitExists)
+            {
+                return 0;
+            }
+
+            int visitId = await _dbContext.Set<Visit>()
+                .Where(visit => visit.PatId == patientId && visit.DocId == doctorId && visit.VisitDate == currentDate)
+                .Select(visit => visit.VisitId)
+                .FirstAsync();
+
+            return visitId;
+        }
     }
 }

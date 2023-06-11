@@ -11,52 +11,89 @@
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition/>
+            <RowDefinition />
             <RowDefinition Height="170"/>
         </Grid.RowDefinitions>
 
         <Border BorderThickness="1"
                 BorderBrush="DarkGray">
-            <Label FontSize="18"
+            <Grid>
+                <Label FontSize="18"
                HorizontalAlignment="Left"
-               Margin="40 10 0 0"
+               VerticalAlignment="Center"
+               Margin="20 10 0 0"
                Content="{Binding OwnerInfo}"
                FontWeight="Bold"/>
+
+                <Label FontSize="16"
+               HorizontalAlignment="Right"
+               Margin="0 5 5 0"
+               Content="{Binding OwnerAddress}"
+               FontWeight="SemiBold"/>
+            </Grid>
         </Border>
-        
+
 
         <ListView Grid.Row="1"
                   Margin="5"
                   BorderThickness="0"
                   HorizontalContentAlignment="Center"
                   ItemsSource="{Binding MedicalHistoryPresentations, Mode=OneWay}"
-                  SelectedItem="{Binding SelectedListItem}">
+                  SelectedItem="{Binding SelectedListItem}"
+                  Width="635"
+                  HorizontalAlignment="Left">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource gridViewHeader}">
                     <GridViewColumn Header="Діагноз" DisplayMemberBinding="{Binding Diagnosis}"/>
                     <GridViewColumn Header="Дата звернення" DisplayMemberBinding="{Binding VisitDate}"/>
                     <GridViewColumn Header="ПІБ лікара" DisplayMemberBinding="{Binding DoctorName}"/>
-                    <GridViewColumn Header="Спеціальність лікара" DisplayMemberBinding="{Binding DoctorSpicialty}"/>
+                    <GridViewColumn Header="Спеціальність лікара" DisplayMemberBinding="{Binding DoctorSpecialty}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
+        <Button 
+                    Width="150"
+                    Height="25"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,4,2"
+                    Content="Додати запис до картки"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Grid.Row="1"
+                    Style="{StaticResource medRecordButton}"
+                    Command="{Binding OpenAddWindowCommand}"/>
+
+        <Button 
+                    Width="150"
+                    Height="25"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,4,35"
+                    Content="Оновити таблицю"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Grid.Row="1"
+                    Style="{StaticResource medRecordButton}"
+                    Command="{Binding InitListCommand}"/>
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition />
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
             <Label Content="Симптоми" 
                    Grid.Column="0"
                    FontSize="15"
-                   FontWeight="DemiBold"/>
+                   FontWeight="DemiBold"
+                   />
             <Border Grid.Column="0"  
                     Margin="4 32 0 5"
                     BorderThickness="1"
-                    BorderBrush="DarkGray"
-                    >
-                
+                    BorderBrush="DarkGray">
+
                 <TextBlock Text="{Binding SelectedListItem.PatientTreatment.HealthIssues}"
                            TextWrapping="Wrap"
                            FontSize="15"
@@ -67,7 +104,9 @@
             <Label Content="Лікування" 
                    Grid.Column="1"
                    FontSize="15"
-                   FontWeight="DemiBold"/>
+                   FontWeight="DemiBold"
+                   />
+
             <Border Grid.Column="1"  
                     Margin="3 32 4 5"
                     BorderThickness="1"
@@ -80,6 +119,7 @@
                            FontWeight="Light"
                            Padding="5"/>
             </Border>
+
         </Grid>
     </Grid>
 </UserControl>

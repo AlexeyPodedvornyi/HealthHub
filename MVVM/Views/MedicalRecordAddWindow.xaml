@@ -1,0 +1,93 @@
+﻿<Window x:Class="HealthHub.MVVM.Views.MedicalRecordAddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthHub.MVVM.Views"
+        mc:Ignorable="d"
+        xmlns:viewmodels="clr-namespace:HealthHub.MVVM.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MedicalRecordAddViewModel}"
+        Title="Додати запис до медкартки" Height="400" Width="600"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        
+        <Label Content="Симптоми / Скарги на здоров'я"
+               FontWeight="SemiBold"/>
+        <Border Grid.Row="0"  
+                    Margin="4 25 4 5"
+                    BorderThickness="0.2"
+                    BorderBrush="DarkGray">
+
+            <TextBox       TextWrapping="Wrap"
+                           FontSize="15"
+                           FontWeight="Light"
+                           Padding="5"
+                           Text="{Binding HealthIssues,Mode=TwoWay}"/>
+        </Border>
+
+        <Label Content="Діагноз"
+               Grid.Row="1"
+               FontWeight="SemiBold"/>
+        <Border Grid.Row="1"  
+                    Margin="4 25 4 5"
+                    BorderThickness="0.2"
+                    BorderBrush="DarkGray">
+
+            <TextBox     TextWrapping="Wrap"
+                           FontSize="15"
+                           FontWeight="Light"
+                           Padding="5"
+                          Text="{Binding Diagnosis,Mode=TwoWay}"/>
+        </Border>
+
+        <Label Content="Лікування"
+               Grid.Row="2"
+               FontWeight="SemiBold"/>
+        <Border Grid.Row="2"  
+                    Margin="4 25 4 5"
+                    BorderThickness="0.2"
+                    BorderBrush="DarkGray">
+
+            <TextBox       TextWrapping="Wrap"
+                           FontSize="15"
+                           FontWeight="Light"
+                           Padding="5"
+                            Text="{Binding TreatmentProtocol,Mode=TwoWay}"/>
+        </Border>
+
+        <Button Grid.Row="3"
+                Width="150"
+                Height="25"
+                VerticalAlignment="Center"
+                BorderThickness="0"
+                HorizontalAlignment="Left"
+                Margin="60 0 0 0"
+                Content="Додати запис"
+                Command="{Binding AddMedicalHistoryRecordCommand}"
+                />
+        <Button Grid.Row="3"
+                Width="150"
+                Height="25"
+                VerticalAlignment="Center"
+                BorderThickness="0"
+                HorizontalAlignment="Right"
+                Margin="00 0 60 0"
+                Content="Очистити поля"
+                Command="{Binding ResetBoxesValueCommand}"
+                />
+    </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ResetBoxesValueCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+</Window>

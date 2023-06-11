@@ -22,5 +22,17 @@ namespace HealthHub.Services
         {
             return await _unitOfWork.PatientTreatmentRepository.GetPatientTreatmentAsync(patientId);
         }
+
+        public async Task AddPatientTreatment(PatientTreatment patientTreatment)
+        {
+            await _unitOfWork.PatientTreatmentRepository.AddAsync(patientTreatment);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+
+        public async Task<PatientTreatment?> GetPatientTreatmentAsync(int treatmentId)
+        {
+            return await _unitOfWork.PatientTreatmentRepository.GetByIdAsync(treatmentId);
+        }
     }
 }

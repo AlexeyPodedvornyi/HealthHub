@@ -19,6 +19,7 @@ namespace HealthHub.MVVM.ViewModels
         //Fields
         private INavigationService _navigation;
 
+
         //Properties
         public INavigationService Navigation
         {

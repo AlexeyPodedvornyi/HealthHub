@@ -9,7 +9,8 @@ namespace HealthHub.Services.Interfaces
 {
     public interface IPatientTreatmentService
     {
-        Task<List<PatientTreatment>> GetPatientTreatments(int patientId);   
-
+        Task<List<PatientTreatment>> GetPatientTreatments(int patientId);
+        Task AddPatientTreatment(PatientTreatment patientTreatment);
+        Task<PatientTreatment?> GetPatientTreatmentAsync(int treatmentId);
     }
 }

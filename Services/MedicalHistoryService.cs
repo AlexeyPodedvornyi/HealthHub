@@ -3,9 +3,11 @@ using HealthHub.MVVM.Models.Doctors;
 using HealthHub.MVVM.Models.Patients;
 using HealthHub.MVVM.ViewModels.Presentations;
 using HealthHub.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,13 +16,19 @@ namespace HealthHub.Services
     public class MedicalHistoryService : IMedicalHistoryService
     {
         public readonly IUnitOfWork _unitOfWork;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IVisitService _visitService;
+        private readonly IPatientTreatmentService _patientTreatmentService;
 
-        public MedicalHistoryService(IUnitOfWork unitOfWork)
+        public MedicalHistoryService(IUnitOfWork unitOfWork, ICurrentUserService currentUserService, IVisitService visitService, IPatientTreatmentService patientTreatmentService)
         {
             _unitOfWork = unitOfWork;
+            _currentUserService = currentUserService;
+            _visitService = visitService;
+            _patientTreatmentService = patientTreatmentService;
         }
 
-        public async Task<List<MedicalHistory>> GetReocordHistoryAsync(int medicalRecordId)
+        public async Task<List<MedicalHistory>> GetMedicalHistoryAsync(int medicalRecordId)
         {
             return await _unitOfWork.MedicalHistoryRepository.GetPatientsMedicalHistoryAsync(medicalRecordId);
         }
@@ -34,8 +42,8 @@ namespace HealthHub.Services
 
             foreach (var history in historyList)
             {
-                var visit = await GetVisitInfoAsync(history.VisitId);
-                var treatment = await GetPatientTreatmentAsync(history.TreatmentId);
+                var visit = await _visitService.GetVisitInfoAsync(history.VisitId);
+                var treatment = await _patientTreatmentService.GetPatientTreatmentAsync(history.TreatmentId);
                 var doc = await GetDoctorAsync(treatment!.DocId);
 
                 result.Add(new MedicalHistoryPresentation
@@ -51,19 +59,38 @@ namespace HealthHub.Services
             return result;
         }
 
-        private async Task<(int, DateOnly)> GetVisitInfoAsync(int visitId)
+        public async Task<bool> AddHistoryRecord(PatientTreatment patientTreatment, int medicalRecordId)
         {
-            return await _unitOfWork.VisitRepository.GetShortVisitInfoAsync(visitId);
+            var currentDate = DateTime.Now.Date;
+            var visitId = await _visitService.GetVisitIdAsync(patientTreatment.PatId, patientTreatment.DocId, new DateOnly(currentDate.Year, currentDate.Month, currentDate.Day));
+
+            if (visitId == 0)
+                return false;
+
+            await _patientTreatmentService.AddPatientTreatment(patientTreatment);
+            
+            var medHistory = new MedicalHistory
+            {
+                MedicalRecordId = medicalRecordId,
+                VisitId = visitId,
+                TreatmentId = patientTreatment.Id,
+                Treatment = patientTreatment
+            };
+
+            
+            await _unitOfWork.MedicalHistoryRepository.AddAsync(medHistory);
+            await _unitOfWork.SaveChangesAsync();
+
+            return true;
         }
 
-        private async Task<PatientTreatment?> GetPatientTreatmentAsync(int treatmentId)
-        {
-            return await _unitOfWork.PatientTreatmentRepository.GetByIdAsync(treatmentId);
-        }
+        
 
         private async Task<Doctor?> GetDoctorAsync(int doctorId) // TODO: Вынести в свой сервис 
         {
             return await _unitOfWork.DoctorRepository.GetByIdAsync(doctorId);
         }
+
+
     }
 }

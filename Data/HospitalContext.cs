@@ -64,6 +64,13 @@ namespace HealthHub.Data
 
         public virtual DbSet<Visit> Visits { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            // Включение логирования чувствительных данных
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AdminAuthInfo>(entity =>
@@ -305,6 +312,8 @@ namespace HealthHub.Data
 
                 entity.ToTable("medicalHistories");
 
+                entity.HasIndex(e => e.TreatmentId, "uniq_teatId").IsUnique();
+
                 entity.Property(e => e.Id)
                     .UseIdentityAlwaysColumn()
                     .HasColumnName("id");
@@ -322,8 +331,8 @@ namespace HealthHub.Data
                     .HasForeignKey(d => d.SupervisionId)
                     .HasConstraintName("fk_supervision_id");
 
-                entity.HasOne(d => d.Treatment).WithMany(p => p.MedicalHistories)
-                    .HasForeignKey(d => d.TreatmentId)
+                entity.HasOne(d => d.Treatment).WithOne(p => p.MedicalHistory)
+                    .HasForeignKey<MedicalHistory>(d => d.TreatmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_treatment_id");
 
@@ -364,7 +373,7 @@ namespace HealthHub.Data
                     .UseIdentityAlwaysColumn()
                     .HasColumnName("pat_id");
                 entity.Property(e => e.Address)
-                    .HasMaxLength(20)
+                    .HasMaxLength(40)
                     .HasColumnName("address");
                 entity.Property(e => e.CityId).HasColumnName("city_id");
                 entity.Property(e => e.DateOfBirthday).HasColumnName("date_of_birthday");

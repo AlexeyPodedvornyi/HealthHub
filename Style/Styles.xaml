@@ -267,5 +267,17 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Padding" Value="10 2 10 2"/>
     </Style>
+    
+    <!--MedRecord button-->
+    <Style x:Key="medRecordButton" TargetType="Button" >
+        <Setter Property="Background" Value="#3d53ad"/>
+
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#546ac4"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

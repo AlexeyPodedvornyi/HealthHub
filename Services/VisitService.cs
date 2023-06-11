@@ -21,5 +21,15 @@ namespace HealthHub.Services
         {
             return await _unitOfWork.VisitRepository.GetShortVisitInfoAsync(visitId);
         }
+
+        public async Task<int> GetVisitIdAsync(int patientId, int doctorId, DateOnly currentDate)
+        {
+            return await _unitOfWork.VisitRepository.GetVisitIdAsync(patientId, doctorId, currentDate);
+        }
+
+        public async Task<(int, DateOnly)> GetVisitInfoAsync(int visitId)
+        {
+            return await _unitOfWork.VisitRepository.GetShortVisitInfoAsync(visitId);
+        }
     }
 }

@@ -24,5 +24,7 @@ namespace HealthHub.Data
         DoctorRepository DoctorRepository { get; }
         SpecialtyRepository SpecialtyRepository { get; }
         void Commit();
+        Task SaveChangesAsync();
+        void Dispose();
     }
 }

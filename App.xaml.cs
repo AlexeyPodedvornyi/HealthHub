@@ -50,30 +50,34 @@ namespace HealthHub
             services.AddTransient<MedicalRecordViewModel>();
             services.AddSingleton<BindablePasswordBoxViewModel>();
             services.AddSingleton<AnimatedSidebarViewModel>();
+            services.AddSingleton<MedicalRecordAddViewModel>();
             
 
             //Services
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddSingleton<INavigationService, NavigationService>();
-            services.AddTransient<IAuthorizationService, AuthorizationService>();          
-            services.AddTransient<IDialogService, DialogService>();
-            services.AddTransient<IPatientService, PatientService>();
-            services.AddTransient<ICityService, CityService>();
-            services.AddTransient<IMedicalHistoryService, MedicalHistoryService>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();          
+            services.AddScoped<IDialogService, DialogService>();
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<ICityService, CityService>();
+            services.AddScoped<IMedicalHistoryService, MedicalHistoryService>();
+            services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+            services.AddScoped<IVisitService, VisitService>();
+            services.AddScoped<IPatientTreatmentService, PatientTreatmentService>();
 
             // Data & Repositpries
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<AdminAuthInfoRepository>();
-            services.AddTransient<DocAuthInfoRepository>();
-            services.AddTransient<PatientRepository>();
-            services.AddTransient<CityRepository>();
-            services.AddTransient<MedicalHistoryRepository>();
-            services.AddTransient<MedicalRecordRepository>();
-            services.AddTransient<DoctorSupervisionRepository>();
-            services.AddTransient<PatientTreatmentRepository>();
-            services.AddTransient<VisitRepository>();
-            services.AddTransient<DoctorRepository>();
-            services.AddTransient<SpecialtyRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<AdminAuthInfoRepository>();
+            services.AddScoped<DocAuthInfoRepository>();
+            services.AddScoped<PatientRepository>();
+            services.AddScoped<CityRepository>();
+            services.AddScoped<MedicalHistoryRepository>();
+            services.AddScoped<MedicalRecordRepository>();
+            services.AddScoped<DoctorSupervisionRepository>();
+            services.AddScoped<PatientTreatmentRepository>();
+            services.AddScoped<VisitRepository>();
+            services.AddScoped<DoctorRepository>();
+            services.AddScoped<SpecialtyRepository>();
 
             services.AddScoped<DbContext, HospitalContext>(provider => provider.GetRequiredService<HospitalContextFactory>().CreateDbContext(null));
 

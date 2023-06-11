@@ -17,13 +17,15 @@ namespace HealthHub.Services
         private ViewModel _currentView;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IServiceProvider _serviceProvider;
+
+        
         public ViewModel CurrentView
         {
             get => _currentView;
             set
             {
                 _currentView = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(CurrentView));
             }
         }
 

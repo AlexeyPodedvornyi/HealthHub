@@ -9,6 +9,9 @@ namespace HealthHub.Services.Interfaces
     public interface IVisitService
     {
         Task<(int, DateOnly)> GetShortVisitInfoAsync(int visitId);
+        Task<(int, DateOnly)> GetVisitInfoAsync(int visitId);
+        Task<int> GetVisitIdAsync(int patientId, int doctorId, DateOnly currentDate);
+
 
     }
 }

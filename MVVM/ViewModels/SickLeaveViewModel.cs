@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace HealthHub.MVVM.ViewModels
 {
-    public class SickLeaveViewModel : ViewModel
+    public class SickLeaveViewModel : ViewModel, IParameterizedNavigationViewModel
     {
+        public SickLeaveViewModel()
+        {
+            
+        }
+
+        public void InitializeParameters(object parameter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

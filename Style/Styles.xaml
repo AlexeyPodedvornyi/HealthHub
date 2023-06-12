@@ -271,13 +271,45 @@
     <!--MedRecord button-->
     <Style x:Key="medRecordButton" TargetType="Button" >
         <Setter Property="Background" Value="#3d53ad"/>
+        <Setter Property="Foreground" Value="White"/>
 
-        
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#546ac4"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+    
+    <!--Datepicker-->
+    <Style x:Key="WatermarkedDatepicker" TargetType="DatePickerTextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DatePickerTextBox">
+                    <Grid>
+                        <TextBox x:Name="PART_TextBox" 
+                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Path=SelectedDate, 
+                                                    StringFormat='{}{0:d}'}" 
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Foreground="Black"
+                                     IsReadOnly="True" />
+                        <TextBlock x:Name="PART_Watermark" 
+                                       Text="Оберіть дату" 
+                                       Foreground="Black"
+                                       IsHitTestVisible="False"
+                                       Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Value="{x:Null}">
+                            <Setter TargetName="PART_TextBox" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

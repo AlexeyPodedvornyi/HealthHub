@@ -26,10 +26,12 @@ namespace HealthHub.Data
         public DoctorSupervisionRepository DoctorSupervisionRepository { get; private set; }
         public DoctorRepository DoctorRepository { get; private set; }
         public SpecialtyRepository SpecialtyRepository { get; private set; }
+        public RecipeRepository RecipeRepository { get; private set; }
 
         public UnitOfWork(DbContext dbContext, AdminAuthInfoRepository adminAuthInfoRepository, DocAuthInfoRepository docAuthInfoRepository, PatientRepository patientRepository,
             CityRepository cityRepository, PatientTreatmentRepository patientTreatmentRepository, MedicalRecordRepository medicalRecordRepository, MedicalHistoryRepository medicalHistoryRepository,
-            VisitRepository visitRepository, DoctorSupervisionRepository doctorSupervisionRepository, DoctorRepository doctorRepository, SpecialtyRepository specialtyRepository )
+            VisitRepository visitRepository, DoctorSupervisionRepository doctorSupervisionRepository, DoctorRepository doctorRepository, SpecialtyRepository specialtyRepository,
+            RecipeRepository recipeRepository)
         {
             _dbContext = dbContext;
             AdminAuthInfoRepository = adminAuthInfoRepository;
@@ -43,6 +45,7 @@ namespace HealthHub.Data
             VisitRepository = visitRepository;
             DoctorRepository = doctorRepository;
             SpecialtyRepository = specialtyRepository;
+            RecipeRepository = recipeRepository;
         }
 
         public void Commit()

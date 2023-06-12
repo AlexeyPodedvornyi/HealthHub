@@ -41,13 +41,13 @@ namespace HealthHub
 
             // ViewModels
             services.AddTransient<AuthViewModel>();
-            services.AddTransient<MenuViewModel>();
-            services.AddTransient<HomeViewModel>();
+            services.AddSingleton<MenuViewModel>();
+            services.AddSingleton<HomeViewModel>();
             services.AddTransient<ProfileViewModel>();
-            services.AddTransient<RecipeViewModel>();
+            services.AddSingleton<RecipeViewModel>();
             services.AddTransient<SickLeaveViewModel>();
             services.AddTransient<ReportViewModel>();
-            services.AddTransient<MedicalRecordViewModel>();
+            services.AddSingleton<MedicalRecordViewModel>();
             services.AddSingleton<BindablePasswordBoxViewModel>();
             services.AddSingleton<AnimatedSidebarViewModel>();
             services.AddSingleton<MedicalRecordAddViewModel>();
@@ -64,6 +64,7 @@ namespace HealthHub
             services.AddScoped<IMedicalRecordService, MedicalRecordService>();
             services.AddScoped<IVisitService, VisitService>();
             services.AddScoped<IPatientTreatmentService, PatientTreatmentService>();
+            services.AddScoped<IRecipeService, RecipeService>();
 
             // Data & Repositpries
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -78,6 +79,7 @@ namespace HealthHub
             services.AddScoped<VisitRepository>();
             services.AddScoped<DoctorRepository>();
             services.AddScoped<SpecialtyRepository>();
+            services.AddScoped<RecipeRepository>();
 
             services.AddScoped<DbContext, HospitalContext>(provider => provider.GetRequiredService<HospitalContextFactory>().CreateDbContext(null));
 

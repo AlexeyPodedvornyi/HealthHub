@@ -65,10 +65,10 @@
                     <GridViewColumn Header="Прізвище" DisplayMemberBinding="{Binding LastName}"/>
                     <GridViewColumn Header="Ім'я" DisplayMemberBinding="{Binding FirstName}"/>
                     <GridViewColumn Header="По-батькові" DisplayMemberBinding="{Binding MiddleName}"/>
-                    <GridViewColumn Header="Дата народження" DisplayMemberBinding="{Binding DateOfBirthday}"/>
+                    <GridViewColumn Header="Дата народження" DisplayMemberBinding="{Binding DateOfBirthday,  StringFormat=dd/MM/yyyy}"/>
                     <GridViewColumn Header="Стать" DisplayMemberBinding="{Binding Gender}"/>
                     <GridViewColumn Header="Ідентифікатор родини" DisplayMemberBinding="{Binding FamilyId}"/>
-                    <GridViewColumn Header="Місто" DisplayMemberBinding="{Binding CityName}"/>
+                    <GridViewColumn Header="Місто" DisplayMemberBinding="{Binding City.CityName}"/>
                     <GridViewColumn Header="Адреса" DisplayMemberBinding="{Binding Address}"/>
                 </GridView>
             </ListView.View>
@@ -79,10 +79,10 @@
                               Command="{Binding DataContext.OpenMedicalRecordCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
                               CommandParameter="{Binding}" />
                     <MenuItem Header="Виписати рецепт на ліки" 
-                              Command="{Binding DataContext.OpenContextMenuCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                              Command="{Binding DataContext.OpenRecipeCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
                               CommandParameter="{Binding}" />
                     <MenuItem Header="Оформити лікарняний" 
-                              Command="{Binding DataContext.OpenContextMenuCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                              Command="{Binding DataContext.OpenSickLeaveCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
                               CommandParameter="{Binding}" />
                 </ContextMenu>
             </ListView.Resources>

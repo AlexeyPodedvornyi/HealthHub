@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using HealthHub.MVVM.Commands;
+using HealthHub.MVVM.Models.Patients;
 using HealthHub.MVVM.ViewModels.Presentations;
 using HealthHub.MVVM.Views;
 using HealthHub.Services.Interfaces;
@@ -17,7 +18,8 @@ namespace HealthHub.MVVM.ViewModels
 {
     public class MedicalRecordViewModel : ViewModel, IParameterizedNavigationViewModel
     {
-        private PatientPresentation _patient;
+        // private PatientPresentation _patient;
+        private Patient _patient;
         private readonly IMedicalHistoryService _medicalHistoryService;
         private readonly MedicalRecordAddViewModel _medicalRecordAddViewModel;
         private List<MedicalHistoryPresentation> _medicalHistoryPresentations;
@@ -38,7 +40,7 @@ namespace HealthHub.MVVM.ViewModels
         {
             get
             {
-                return Patient.CityName + "\n" + Patient.Address;
+                return Patient.City.CityName + "\n" + Patient.Address;
             }
         }
 
@@ -61,13 +63,12 @@ namespace HealthHub.MVVM.ViewModels
                 OnPropertyChanged(nameof(MedicalHistoryPresentations));
             }
         }
-        public PatientPresentation Patient
+        public Patient Patient
         {
             get => _patient;
         }
 
         public ICommand InitListCommand { get; set; }
-        public ICommand RefreshListCommand { get; set; }
         public ICommand OpenAddWindowCommand { get;}
         public MedicalRecordViewModel(IMedicalHistoryService medicalHistoryService, MedicalRecordAddViewModel recordAddViewModel)
         {
@@ -75,12 +76,11 @@ namespace HealthHub.MVVM.ViewModels
             _medicalRecordAddViewModel = recordAddViewModel;
             OpenAddWindowCommand = new RelayCommand(execute => OpenAddWindow());
             InitListCommand = new RelayCommand(async exec => await InitListAsync());
-            RefreshListCommand = new RelayCommand(async exec => await InitListAsync());
         }
 
         public void InitializeParameters(object parameter)
         {
-            if(parameter is PatientPresentation patient)
+            if(parameter is Patient patient)
             {
                 _patient = patient;
             }

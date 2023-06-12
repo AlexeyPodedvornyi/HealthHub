@@ -14,16 +14,13 @@ namespace HealthHub.Services
     public class PatientService : IPatientService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private DbContext _dbContext;
-        public PatientService(IUnitOfWork unitOfWork, DbContext dbContext)
+        public PatientService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _dbContext = dbContext;
         }
 
         public async Task<List<Patient>> SearchAsync(string searchRequest)
         {
-            var str = _dbContext.Database.GetConnectionString();
             return await _unitOfWork.PatientRepository.GetPatientsByFullNameAsync(searchRequest);
         }
 

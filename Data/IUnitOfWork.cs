@@ -23,6 +23,7 @@ namespace HealthHub.Data
         DoctorSupervisionRepository DoctorSupervisionRepository { get; }
         DoctorRepository DoctorRepository { get; }
         SpecialtyRepository SpecialtyRepository { get; }
+        RecipeRepository RecipeRepository { get; }
         void Commit();
         Task SaveChangesAsync();
         void Dispose();

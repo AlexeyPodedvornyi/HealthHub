@@ -33,12 +33,14 @@ namespace HealthHub.Data.Repositories.Patients
             if (names.Length == 1)
             {
                 return await _dbContext.Set<Patient>()
+                    .Include(p => p.City)
                     .Where(p => p.FirstName == names[0] || p.LastName == names[0])
                     .ToListAsync();
             }
             else if (names.Length == 2)
             {
                 return await _dbContext.Set<Patient>()
+                    .Include(p => p.City)
                     .Where(p => (p.FirstName == names[0] && p.LastName == names[1]) 
                         || (p.FirstName == names[1] && p.LastName == names[0]))
                     .ToListAsync();
@@ -46,6 +48,7 @@ namespace HealthHub.Data.Repositories.Patients
             else if (names.Length == 3)
             {
                 return await _dbContext.Set<Patient>()
+                    .Include(p => p.City)
                     .Where(p => p.FirstName == names[0] && p.LastName == names[2] && p.MiddleName == names[1])
                     .ToListAsync();
             }

@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace HealthHub.MVVM.ViewModels
 {
-    public class HomeViewModel: ViewModel
+    public class HomeViewModel : ViewModel
     {
         private readonly IPatientService _patientSearchService;
         private readonly IDialogService _dialogService;
@@ -23,10 +23,11 @@ namespace HealthHub.MVVM.ViewModels
         private readonly IPatientViewModelFactory _patientViewModelFactory;
         private string? _searchRequest;
         private bool _isSearchMessageVisible;
-        private List<PatientPresentation> _searchResult;
+       // private List<PatientPresentation> _searchResult;
+        private List<Patient> _searchResult;
 
-        public string? SearchRequest 
-        { 
+        public string? SearchRequest
+        {
             get => _searchRequest;
             set
             {
@@ -34,7 +35,17 @@ namespace HealthHub.MVVM.ViewModels
                 OnPropertyChanged(nameof(SearchRequest));
             }
         }
-        public List<PatientPresentation> SearchResult 
+        //public List<PatientPresentation> SearchResult
+        //{
+        //    get => _searchResult;
+        //    set
+        //    {
+        //        _searchResult = value;
+        //        SearchResultChanged();
+        //        OnPropertyChanged(nameof(SearchResult));
+        //    }
+        //}
+        public List<Patient> SearchResult
         {
             get => _searchResult;
             set
@@ -44,7 +55,8 @@ namespace HealthHub.MVVM.ViewModels
                 OnPropertyChanged(nameof(SearchResult));
             }
         }
-        public bool IsSearchMessageVisible 
+
+        public bool IsSearchMessageVisible
         {
             get => _isSearchMessageVisible;
             set
@@ -56,11 +68,13 @@ namespace HealthHub.MVVM.ViewModels
 
         public ICommand SearchCommand { get; }
         public ICommand OpenMedicalRecordCommand { get; }
+        public ICommand OpenRecipeCommand { get; }
+        public ICommand OpenSickLeaveCommand { get; }
         public ICommand WriteRecipeCommand { get; }
         public ICommand WriteSickLeaveCommand { get; }
 
 
-        public HomeViewModel(IPatientService patientSearchService, IDialogService dialogService, IPatientViewModelFactory patientViewModelFactory, INavigationService navigationService) 
+        public HomeViewModel(IPatientService patientSearchService, IDialogService dialogService, IPatientViewModelFactory patientViewModelFactory, INavigationService navigationService)
         {
             _patientSearchService = patientSearchService;
             _dialogService = dialogService;
@@ -69,6 +83,8 @@ namespace HealthHub.MVVM.ViewModels
 
             SearchCommand = new RelayCommand(async execute => await HandleSearchQuerryAsync());
             OpenMedicalRecordCommand = new RelayCommand(OpenMedicalRecord);
+            OpenRecipeCommand = new RelayCommand(OpenRecipe);
+            OpenSickLeaveCommand = new RelayCommand(OpenSickLeave);
             IsSearchMessageVisible = false;
         }
 
@@ -81,8 +97,10 @@ namespace HealthHub.MVVM.ViewModels
             }
 
             var result = await _patientSearchService.SearchAsync(SearchRequest);
-            SearchResult = new List<PatientPresentation>(
-                result.Select(patient => _patientViewModelFactory.Create(patient)));            
+            //SearchResult = new List<PatientPresentation>(
+            //    result.Select(patient => _patientViewModelFactory.Create(patient)));
+
+            SearchResult = result;
         }
 
         private void SearchResultChanged()
@@ -95,26 +113,43 @@ namespace HealthHub.MVVM.ViewModels
             {
                 IsSearchMessageVisible = false;
             }
-                     
-        }
 
-        private void OpenContextMenu(object parameter)
-        {
-            var selectedPatient = parameter as PatientPresentation;
-
-            
         }
 
         private void OpenMedicalRecord(object parameter)
         {
-            var selectedPatient = parameter as PatientPresentation;
-            if(selectedPatient == null)
+            var selectedPatient = parameter as Patient;
+            if (selectedPatient == null)
             {
                 _dialogService.ShowError("Обраного пацієнта не існує! Виконайте пошук знову та спробуйте ще раз.", "Помилка читання даних");
                 return;
             }
 
             _navigationService.NavigateTo<MedicalRecordViewModel>(selectedPatient);
+        }
+
+        private void OpenRecipe(object parameter)
+        {
+            var selectedPatient = parameter as Patient;
+            if (selectedPatient == null)
+            {
+                _dialogService.ShowError("Обраного пацієнта не існує! Виконайте пошук знову та спробуйте ще раз.", "Помилка читання даних");
+                return;
+            }
+
+            _navigationService.NavigateTo<RecipeViewModel>(selectedPatient);
+        }
+
+        private void OpenSickLeave(object parameter)
+        {
+            var selectedPatient = parameter as Patient;
+            if (selectedPatient == null)
+            {
+                _dialogService.ShowError("Обраного пацієнта не існує! Виконайте пошук знову та спробуйте ще раз.", "Помилка читання даних");
+                return;
+            }
+
+            _navigationService.NavigateTo<SickLeaveViewModel>(selectedPatient);
         }
     }
 }

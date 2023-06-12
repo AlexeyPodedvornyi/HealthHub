@@ -45,7 +45,7 @@
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource gridViewHeader}">
                     <GridViewColumn Header="Діагноз" DisplayMemberBinding="{Binding Diagnosis}"/>
-                    <GridViewColumn Header="Дата звернення" DisplayMemberBinding="{Binding VisitDate}"/>
+                    <GridViewColumn Header="Дата звернення" DisplayMemberBinding="{Binding VisitDate, StringFormat=dd/MM/yyyy}"/>
                     <GridViewColumn Header="ПІБ лікара" DisplayMemberBinding="{Binding DoctorName}"/>
                     <GridViewColumn Header="Спеціальність лікара" DisplayMemberBinding="{Binding DoctorSpecialty}"/>
                 </GridView>
@@ -59,7 +59,6 @@
                     HorizontalAlignment="Right"
                     Margin="0,0,4,2"
                     Content="Додати запис до картки"
-                    Foreground="White"
                     BorderThickness="0"
                     Grid.Row="1"
                     Style="{StaticResource medRecordButton}"

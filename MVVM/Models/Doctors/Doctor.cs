@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HealthHub.MVVM.Models.Doctors
 {
-    public class Doctor
+    public partial class Doctor
     {
         public int DocId { get; set; }
 

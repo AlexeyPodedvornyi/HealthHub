@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthHub.MVVM.Views"
         xmlns:customControls="clr-namespace:HealthHub.CustomControls"
-        xmlns:viewModels="clr-namespace:HealthHub.MVVM.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:viewModels="clr-namespace:HealthHub.MVVM.ViewModels" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MenuWindow" Height="450" Width="850" WindowStyle="None"
         ResizeMode="NoResize">
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="180"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -63,6 +64,7 @@
                         LabelContent="Медична картка"
                         Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                         GroupName="NavigationButtons"
+                        
                         />
                     <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
                         ImageSource="/Images/recipe2.ico" 
@@ -77,8 +79,8 @@
                         GroupName="NavigationButtons"
                         />
                     <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
-                        ImageSource="/Images/report2.ico" 
-                        LabelContent="Стан здоров'я"
+                        ImageSource="/Images/calendar2.ico" 
+                        LabelContent="Робочий графік"
                         Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                         GroupName="NavigationButtons"
                         />

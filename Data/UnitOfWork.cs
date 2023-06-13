@@ -28,6 +28,7 @@ namespace HealthHub.Data
         public SpecialtyRepository SpecialtyRepository { get; private set; }
         public RecipeRepository RecipeRepository { get; private set; }
         public SickLeaveRepository SickLeaveRepository { get; private set; }
+        public DbContext DbContext { get =>_dbContext; }
 
         public UnitOfWork(DbContext dbContext, AdminAuthInfoRepository adminAuthInfoRepository, DocAuthInfoRepository docAuthInfoRepository, PatientRepository patientRepository,
             CityRepository cityRepository, PatientTreatmentRepository patientTreatmentRepository, MedicalRecordRepository medicalRecordRepository, MedicalHistoryRepository medicalHistoryRepository,
@@ -48,6 +49,12 @@ namespace HealthHub.Data
             SpecialtyRepository = specialtyRepository;
             RecipeRepository = recipeRepository;
             SickLeaveRepository = sickLeaveRepository;
+        }
+
+        public void SetConnectionString(string connectionString)
+        {
+            var str = _dbContext.Database.GetConnectionString();
+            _dbContext.Database.SetConnectionString(connectionString);
         }
 
         public void Commit()

@@ -6,6 +6,7 @@ using HealthHub.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -66,7 +67,7 @@ namespace HealthHub.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["unauthorizedRole"].ConnectionString);
             // Включение логирования чувствительных данных
             optionsBuilder.EnableSensitiveDataLogging();
         }

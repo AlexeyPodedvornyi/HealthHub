@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:HealthHub.CustomControls" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="150"
+             d:DesignHeight="450" d:DesignWidth="180"
              x:Name="SidebarBorder"
              Background="#4fc6f7">
 
@@ -40,7 +40,7 @@
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Width"
                                                  Duration="0:0:0.3"
-                                                 To="170" />
+                                                 To="180" />
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>

@@ -19,7 +19,9 @@ namespace HealthHub.Data.Repositories.AuthInfo
 
         public async Task<DocAuthInfo> SelectAuthInfoAsync(string login, string pass)
         {
-            return await _dbContext.Set<DocAuthInfo>().FirstOrDefaultAsync(a => a.Login == login && a.Password == pass);
+            return await _dbContext.Set<DocAuthInfo>()
+                .Include(d => d.Role)
+                .FirstOrDefaultAsync(a => a.Login == login && a.Password == pass);
         }
     }
 }

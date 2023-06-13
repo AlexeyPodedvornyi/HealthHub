@@ -15,16 +15,19 @@ namespace HealthHub.Services
 {
     public class CurrentUserService : ICurrentUserService
     {
-        public string CurrentRole { get; set; }
+        public enum UserRole
+        {
+            Unauthorized,
+            Admin,
+            Doctor,
+            DepartmentHead
+        }
+        public UserRole CurrentRole { get; set; }
         public IUserAuthInfo? CurrentUser { get; set; }
 
         public CurrentUserService()
         {
-            // Uncoment when authWindow is the startup Window
-            //CurrentRole = "unauthorized";
-            CurrentUser = new DocAuthInfo { DocId = 18};
-            CurrentRole = "doctor";
-
+            CurrentRole = UserRole.Unauthorized;
         }
 
     }

@@ -11,6 +11,8 @@ using HealthHub.Data;
 using HealthHub.MVVM.Models.AuthInfo;
 using HealthHub.Services.Interfaces;
 using HealthHub.MVVM.Models.Doctors;
+using HealthHub.Data.Repositories.AuthInfo;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealthHub.Services
 {
@@ -18,10 +20,14 @@ namespace HealthHub.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICurrentUserService _currentUserService;
+
+        
+
         public AuthorizationService(IUnitOfWork unitOfWork, ICurrentUserService currentUserService)
         {
             _unitOfWork = unitOfWork;
             _currentUserService = currentUserService;
+
         }
 
         public async Task<bool> IsAccessGrantedAsync(string login, string password)
@@ -48,14 +54,25 @@ namespace HealthHub.Services
         private void SetCurrentUser(IUserAuthInfo userAuthInfo)
         {
             _currentUserService.CurrentUser = userAuthInfo;
+            if (userAuthInfo is DocAuthInfo docAuth)
+            {
+                if(docAuth.RoleId == (int)CurrentUserService.UserRole.Doctor)
+                {
+                    _currentUserService.CurrentRole = CurrentUserService.UserRole.Doctor;
+                    _unitOfWork.SetConnectionString(ConfigurationManager.ConnectionStrings["doctorRole"].ConnectionString);
+                }
+                else
+                {
+                    _currentUserService.CurrentRole = CurrentUserService.UserRole.DepartmentHead;
+                    _unitOfWork.SetConnectionString(ConfigurationManager.ConnectionStrings["departHeadRole"].ConnectionString);
+                }
 
-            if (userAuthInfo is DocAuthInfo)
-            {
-                _currentUserService.CurrentRole = "doctor";
             }
-            else if (userAuthInfo is AdminAuthInfo)
+            else if (userAuthInfo is AdminAuthInfo adminAuth)
             {
-                _currentUserService.CurrentRole = "admin";
+                _currentUserService.CurrentRole = CurrentUserService.UserRole.Admin;
+                _unitOfWork.SetConnectionString(ConfigurationManager.ConnectionStrings["adminRole"].ConnectionString);
+
             }
         }
     }

@@ -84,12 +84,11 @@ namespace HealthHub
             services.AddScoped<RecipeRepository>();
             services.AddScoped<SickLeaveRepository>();
 
-            services.AddScoped<DbContext, HospitalContext>(provider => provider.GetRequiredService<HospitalContextFactory>().CreateDbContext(null));
+            services.AddScoped<DbContext, HospitalContext>();
 
             // Factories
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
             services.AddScoped<IPatientViewModelFactory, PatientViewModelFactory>();
-            services.AddScoped<HospitalContextFactory>();
 
             _serviceProvider = services.BuildServiceProvider();
         }
@@ -97,7 +96,7 @@ namespace HealthHub
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var startWindow = _serviceProvider.GetRequiredService<MenuWindow>();
+            var startWindow = _serviceProvider.GetRequiredService<AuthWindow>();
             startWindow.Show();
         }
     }

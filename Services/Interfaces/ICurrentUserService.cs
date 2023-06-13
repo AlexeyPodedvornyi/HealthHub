@@ -10,7 +10,7 @@ namespace HealthHub.Services.Interfaces
 {
     public interface ICurrentUserService
     {
-        string CurrentRole { get; set; }
+        CurrentUserService.UserRole CurrentRole { get; set; }
         IUserAuthInfo? CurrentUser { get; set; }
     }
 }

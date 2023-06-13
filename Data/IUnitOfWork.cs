@@ -2,6 +2,7 @@
 using HealthHub.Data.Repositories.Doctors;
 using HealthHub.Data.Repositories.Other;
 using HealthHub.Data.Repositories.Patients;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace HealthHub.Data
         SpecialtyRepository SpecialtyRepository { get; }
         RecipeRepository RecipeRepository { get; }
         SickLeaveRepository SickLeaveRepository { get; }
+        DbContext DbContext
+        {
+            get;
+        }
+        void SetConnectionString(string connectionString);
         void Commit();
         Task SaveChangesAsync();
         void Dispose();

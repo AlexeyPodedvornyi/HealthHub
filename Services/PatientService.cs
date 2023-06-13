@@ -24,6 +24,5 @@ namespace HealthHub.Services
             return await _unitOfWork.PatientRepository.GetPatientsByFullNameAsync(searchRequest);
         }
 
-
     }
 }

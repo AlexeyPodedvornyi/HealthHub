@@ -1,11 +1,14 @@
-﻿using HealthHub.MVVM.Commands;
+﻿using HealthHub.Helpers;
+using HealthHub.MVVM.Commands;
 using HealthHub.MVVM.Models.AuthInfo;
 using HealthHub.MVVM.Models.Patients;
+using HealthHub.Helpers;
 using HealthHub.MVVM.ViewModels.Presentations;
 using HealthHub.Services.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -135,8 +138,8 @@ namespace HealthHub.MVVM.ViewModels
         {
             if(_currentUserService.CurrentUser is DocAuthInfo doc)
             {
-                var isValid = ValidateInputs();
-                if (!isValid)
+                var isInputsValid = ValidateInputs();
+                if (!isInputsValid)
                     return;
 
                 var recipe = new Recipe
@@ -144,8 +147,8 @@ namespace HealthHub.MVVM.ViewModels
                     DocId = doc.DocId,
                     PatId = _patient.PatId,
                     MedicineName = MedicineName,
-                    StartTerm = ConvertInputDateTime(StartTerm),
-                    EndTerm = ConvertInputDateTime(EndTerm)
+                    StartTerm = Helpers.DateTimeConverter.ConvertToDateOnly(StartTerm),
+                    EndTerm = Helpers.DateTimeConverter.ConvertToDateOnly(EndTerm)
                 };
 
                 await _recipeService.AddRecipeAsync(recipe);
@@ -154,13 +157,6 @@ namespace HealthHub.MVVM.ViewModels
             }
 
         }
-
-        private DateOnly ConvertInputDateTime(DateTime? dateTime)
-        {
-            var dt = dateTime!.Value;
-            return new DateOnly(dt.Year, dt.Month, dt.Day);
-        }
-
         private bool ValidateInputs()
         {
             if (string.IsNullOrEmpty(MedicineName))
@@ -181,7 +177,7 @@ namespace HealthHub.MVVM.ViewModels
                 return false;
             }
 
-            if (StartTerm > EndTerm)
+            if (StartTerm >= EndTerm)
             {
                 _dialogService.ShowError("Кінцевий термін дії не може бути менше за початковий", "Помилка даних");
                 return false;

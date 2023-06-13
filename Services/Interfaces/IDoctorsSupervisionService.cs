@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace HealthHub.Services.Interfaces
 {
-    public interface IDoctorsSupervisionService
+    public interface IDoctorService
     {
-        Task<List<DoctorSupervision>> GetSupervisionsListAsync(int patientId);
-
+        Task<int> GetHospitalIdAsync(int doctorId);
     }
 }

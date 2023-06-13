@@ -65,6 +65,8 @@ namespace HealthHub
             services.AddScoped<IVisitService, VisitService>();
             services.AddScoped<IPatientTreatmentService, PatientTreatmentService>();
             services.AddScoped<IRecipeService, RecipeService>();
+            services.AddScoped<ISickLeaveService, SickLeaveService>();
+            services.AddScoped<IDoctorService, DoctorService>();
 
             // Data & Repositpries
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -80,6 +82,7 @@ namespace HealthHub
             services.AddScoped<DoctorRepository>();
             services.AddScoped<SpecialtyRepository>();
             services.AddScoped<RecipeRepository>();
+            services.AddScoped<SickLeaveRepository>();
 
             services.AddScoped<DbContext, HospitalContext>(provider => provider.GetRequiredService<HospitalContextFactory>().CreateDbContext(null));
 

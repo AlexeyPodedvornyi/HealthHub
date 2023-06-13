@@ -20,10 +20,8 @@ namespace HealthHub.MVVM.ViewModels
         private readonly IPatientService _patientSearchService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
-        private readonly IPatientViewModelFactory _patientViewModelFactory;
         private string? _searchRequest;
         private bool _isSearchMessageVisible;
-       // private List<PatientPresentation> _searchResult;
         private List<Patient> _searchResult;
 
         public string? SearchRequest
@@ -35,16 +33,7 @@ namespace HealthHub.MVVM.ViewModels
                 OnPropertyChanged(nameof(SearchRequest));
             }
         }
-        //public List<PatientPresentation> SearchResult
-        //{
-        //    get => _searchResult;
-        //    set
-        //    {
-        //        _searchResult = value;
-        //        SearchResultChanged();
-        //        OnPropertyChanged(nameof(SearchResult));
-        //    }
-        //}
+
         public List<Patient> SearchResult
         {
             get => _searchResult;
@@ -74,17 +63,17 @@ namespace HealthHub.MVVM.ViewModels
         public ICommand WriteSickLeaveCommand { get; }
 
 
-        public HomeViewModel(IPatientService patientSearchService, IDialogService dialogService, IPatientViewModelFactory patientViewModelFactory, INavigationService navigationService)
+        public HomeViewModel(IPatientService patientSearchService, IDialogService dialogService, INavigationService navigationService)
         {
             _patientSearchService = patientSearchService;
             _dialogService = dialogService;
             _navigationService = navigationService;
-            _patientViewModelFactory = patientViewModelFactory;
 
             SearchCommand = new RelayCommand(async execute => await HandleSearchQuerryAsync());
             OpenMedicalRecordCommand = new RelayCommand(OpenMedicalRecord);
             OpenRecipeCommand = new RelayCommand(OpenRecipe);
             OpenSickLeaveCommand = new RelayCommand(OpenSickLeave);
+
             IsSearchMessageVisible = false;
         }
 
@@ -97,9 +86,6 @@ namespace HealthHub.MVVM.ViewModels
             }
 
             var result = await _patientSearchService.SearchAsync(SearchRequest);
-            //SearchResult = new List<PatientPresentation>(
-            //    result.Select(patient => _patientViewModelFactory.Create(patient)));
-
             SearchResult = result;
         }
 

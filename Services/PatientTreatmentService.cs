@@ -1,4 +1,5 @@
 ﻿using HealthHub.Data;
+using HealthHub.Helpers;
 using HealthHub.MVVM.Models.Patients;
 using HealthHub.Services.Interfaces;
 using System;
@@ -33,6 +34,11 @@ namespace HealthHub.Services
         public async Task<PatientTreatment?> GetPatientTreatmentAsync(int treatmentId)
         {
             return await _unitOfWork.PatientTreatmentRepository.GetByIdAsync(treatmentId);
+        }
+
+        public async Task<List<PatientTreatment>> GetTodayTreatments(int patientId)
+        {
+            return await _unitOfWork.PatientTreatmentRepository.GetTodayTreatments(patientId, DateTimeConverter.ConvertToDateOnly(DateTime.Now));
         }
     }
 }

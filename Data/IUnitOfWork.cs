@@ -24,6 +24,7 @@ namespace HealthHub.Data
         DoctorRepository DoctorRepository { get; }
         SpecialtyRepository SpecialtyRepository { get; }
         RecipeRepository RecipeRepository { get; }
+        SickLeaveRepository SickLeaveRepository { get; }
         void Commit();
         Task SaveChangesAsync();
         void Dispose();

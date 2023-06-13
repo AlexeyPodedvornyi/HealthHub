@@ -16,5 +16,12 @@ namespace HealthHub.Data.Repositories.Doctors
             _dbContext = dbContext;
         }
 
+        public async Task<int> GetHospitalIdAsync(int doctorId)
+        {
+            return await _dbContext.Set<Doctor>()
+                .Where(d => d.DocId == doctorId)
+                .Select(d => d.HospitalId)
+                .FirstAsync();
+        }
     }
 }

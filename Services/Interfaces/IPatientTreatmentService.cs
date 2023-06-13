@@ -12,5 +12,6 @@ namespace HealthHub.Services.Interfaces
         Task<List<PatientTreatment>> GetPatientTreatments(int patientId);
         Task AddPatientTreatment(PatientTreatment patientTreatment);
         Task<PatientTreatment?> GetPatientTreatmentAsync(int treatmentId);
+        Task<List<PatientTreatment>> GetTodayTreatments(int patientId);
     }
 }

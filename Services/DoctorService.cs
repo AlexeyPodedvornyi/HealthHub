@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace HealthHub.Services
 {
-    public class DoctorsSupervisionService : IDoctorsSupervisionService
+    public class DoctorService : IDoctorService
     {
         public readonly IUnitOfWork _unitOfWork;
 
-        public DoctorsSupervisionService(IUnitOfWork unitOfWork)
+        public DoctorService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<DoctorSupervision>> GetSupervisionsListAsync(int patientId)
+        public async Task<int> GetHospitalIdAsync(int doctorId)
         {
-            return await _unitOfWork.DoctorSupervisionRepository.GetDoctorSupervisionsByPatientIdAsync(patientId);
+            return await _unitOfWork.DoctorRepository.GetHospitalIdAsync(doctorId);
         }
     }
 }

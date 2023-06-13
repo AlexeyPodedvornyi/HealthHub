@@ -22,5 +22,14 @@ namespace HealthHub.Data.Repositories.Patients
                 .Where(treatment => treatment.PatId == patientId)
                 .ToListAsync();
         }
+
+        public async Task<List<PatientTreatment>> GetTodayTreatments(int patientId, DateOnly currentDate)
+        {
+            return await _dbContext.Set<PatientTreatment>()
+                 .Include(p => p.MedicalHistory)
+                     .ThenInclude(m => m.Visit)
+                 .Where(p => p.PatId == patientId && p.MedicalHistory.Visit.VisitDate == currentDate)
+                 .ToListAsync();
+        }
     }
 }

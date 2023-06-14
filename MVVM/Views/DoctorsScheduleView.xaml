@@ -1,0 +1,228 @@
+﻿<UserControl x:Class="HealthHub.MVVM.Views.DoctorsScheduleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HealthHub.MVVM.Views"
+             xmlns:viewmodels="clr-namespace:HealthHub.MVVM.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:DoctorsScheduleViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="420" d:DesignWidth="800">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="220"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Row="0"
+                  Margin="5"
+                  BorderThickness="0"
+                  HorizontalContentAlignment="Center"
+                  ItemsSource="{Binding DoctorsSchedules, Mode=OneWay}"
+                  HorizontalAlignment="Left">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource gridViewHeader}">
+                    <GridViewColumn Header="ПІБ лікара" DisplayMemberBinding="{Binding Doc.FullName}"/>
+                    <GridViewColumn Header="Спеціальність лікара" DisplayMemberBinding="{Binding Doc.Spec.SpecName}"/>
+                    <GridViewColumn Header="Дата приймому" DisplayMemberBinding="{Binding BaseDate, StringFormat=dd/MM/yyyy}"/>
+                    <GridViewColumn Header="Початок робочго дня" DisplayMemberBinding="{Binding StartTime, StringFormat=HH:mm}"/>
+                    <GridViewColumn Header="Кінець робочого дня" DisplayMemberBinding="{Binding EndTime, StringFormat=HH:mm}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Row="1"
+            Background="#f5f5f5">
+            <Border Grid.Column="1"
+                    BorderBrush="DimGray"
+                    BorderThickness="0 1 1 1"/>
+            <Label Grid.Column="1"
+                Content="Створити робочій графік"
+                FontSize="15"
+                Height="30"
+                FontWeight="SemiBold"
+                VerticalAlignment="Top"/>
+            <Label 
+                Content="Лікар"
+                FontSize="15.5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                 Margin="13,35,0,0"/>
+            <ComboBox  
+                Margin="74,39,0,0"
+                FontSize="15.5"
+                FontWeight="Thin"
+                Height="25"
+                Width="250"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding Doctors}"
+                DisplayMemberPath="FullName"
+                SelectedItem="{Binding ComboboxSelectedDoctor}"/>
+            <Label 
+                Content="№"
+                FontSize="15.5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                 Margin="360,34,0,0"/>
+            <Border
+                    Width="80"
+                    Height="25"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Margin="391,39,0,0"
+                    BorderThickness="0.5"
+                    BorderBrush="Gray">
+                <TextBlock Text="{Binding ComboboxSelectedDoctor.DocId}"
+                           FontSize="15"
+                           Padding="2 0 2 0"
+                           Foreground="Black"
+                           FontWeight="Thin"/>
+            </Border>
+            <Label 
+                Content="Дні прийому з"
+                FontSize="15.5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                 Margin="13,73,0,0"/>
+            <DatePicker 
+                VerticalAlignment="Top"
+                    Margin="137,76,483,0"
+                    Width="180"
+                    FontSize="14"
+                    FontWeight="Thin"
+                    BorderThickness="0 0 0 1.5"
+                    BorderBrush="Gray"
+                    SelectedDate="{Binding StartTerm, StringFormat=dd/MM/yyyy, Mode=TwoWay}" >
+                <DatePicker.Resources>
+                    <Style TargetType="DatePickerTextBox">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DatePickerTextBox">
+                                    <Grid>
+                                        <TextBox x:Name="PART_TextBox"
+                                                     Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="Transparent"
+                                                     BorderThickness="0"
+                                                     Foreground="Black"
+                                                     IsReadOnly="True" />
+                                        <TextBlock x:Name="PART_Watermark"
+                                                       Text="Оберіть початкову дату"
+                                                       Foreground="Gray"
+                                                       IsHitTestVisible="False"
+                                                       Visibility="Collapsed"
+                                                       Background="Transparent" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="{x:Null}">
+                                            <Setter TargetName="PART_TextBox" Property="Visibility" Value="Collapsed" />
+                                            <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="PART_TextBox" Property="Foreground" Value="Black" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
+
+            <Label 
+                Content="Дні прийому до"
+                FontSize="15.5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="13,109,0,0"/>
+            <DatePicker 
+                VerticalAlignment="Top"
+                Margin="138,112,482,0"
+                Width="180"
+                FontSize="14"
+                FontWeight="Thin"
+                BorderThickness="0 0 0 1.5"
+                BorderBrush="Gray"
+                SelectedDate="{Binding EndTerm, StringFormat=dd/MM/yyyy, Mode=TwoWay}" >
+                <DatePicker.Resources>
+                    <Style TargetType="DatePickerTextBox">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DatePickerTextBox">
+                                    <Grid>
+                                        <TextBox x:Name="PART_TextBox"
+                                                     Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="Transparent"
+                                                     BorderThickness="0"
+                                                     Foreground="Black"
+                                                     IsReadOnly="True" />
+                                        <TextBlock x:Name="PART_Watermark"
+                                                       Text="Оберіть кінцеву дату"
+                                                       Foreground="Gray"
+                                                       IsHitTestVisible="False"
+                                                       Visibility="Collapsed"
+                                                       Background="Transparent" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="{x:Null}">
+                                            <Setter TargetName="PART_TextBox" Property="Visibility" Value="Collapsed" />
+                                            <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="PART_TextBox" Property="Foreground" Value="Black" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
+            <Button
+                    Style="{StaticResource medRecordButton}"
+                    Content="Створити графік"
+                    Width="150"
+                    Height="30"
+                    VerticalAlignment="Top"
+                    Margin="400,156,250,0"
+                    Command="{Binding AddScheduleCommand}"
+                    IsEnabled="{Binding IsAddButtonEnabled}"
+                    />
+            <Button
+                    Style="{StaticResource medRecordButton}"
+                    Content="Оновити таблицю"
+                    Width="150"
+                    Height="30"
+                    VerticalAlignment="Top"
+                    Margin="224,156,426,0"
+                    Command="{Binding InitListCommand}"    
+                    />
+            <Button
+                    Style="{StaticResource medRecordButton}"
+                    Content="Очистити поля"
+                    Width="150"
+                    Height="30"
+                    VerticalAlignment="Top"
+                    Margin="45,156,605,0"
+                    Background="#5c70c4"
+                    Command="{Binding ResetInputsCommand}"    
+                    />
+            <Border Background="#ededed"
+                    BorderBrush="DimGray"
+                    BorderThickness="0.8 0.8 0 0"
+                    Width="220"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 0 0"/>
+            <CheckBox Content="Використати поля як фільтр"
+                      Margin="587,16,-447,124"
+                      FontSize="14"
+                      FontWeight="DemiBold"
+                      IsChecked="{Binding IsFilter1Checked, Mode=OneWayToSource}"/>
+        </Grid>
+    </Grid>
+</UserControl>

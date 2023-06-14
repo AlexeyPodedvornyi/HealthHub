@@ -26,10 +26,7 @@ namespace HealthHub.Data
         SpecialtyRepository SpecialtyRepository { get; }
         RecipeRepository RecipeRepository { get; }
         SickLeaveRepository SickLeaveRepository { get; }
-        DbContext DbContext
-        {
-            get;
-        }
+        DoctorsScheduleRepository DoctorsScheduleRepository { get; }
         void SetConnectionString(string connectionString);
         void Commit();
         Task SaveChangesAsync();

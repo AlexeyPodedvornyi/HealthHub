@@ -46,7 +46,7 @@ namespace HealthHub
             services.AddTransient<ProfileViewModel>();
             services.AddSingleton<RecipeViewModel>();
             services.AddTransient<SickLeaveViewModel>();
-            services.AddTransient<ReportViewModel>();
+            services.AddTransient<DoctorsScheduleViewModel>();
             services.AddSingleton<MedicalRecordViewModel>();
             services.AddSingleton<BindablePasswordBoxViewModel>();
             services.AddSingleton<AnimatedSidebarViewModel>();
@@ -67,6 +67,7 @@ namespace HealthHub
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<ISickLeaveService, SickLeaveService>();
             services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
 
             // Data & Repositpries
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -83,6 +84,7 @@ namespace HealthHub
             services.AddScoped<SpecialtyRepository>();
             services.AddScoped<RecipeRepository>();
             services.AddScoped<SickLeaveRepository>();
+            services.AddScoped<DoctorsScheduleRepository>();
 
             services.AddScoped<DbContext, HospitalContext>();
 
@@ -96,7 +98,7 @@ namespace HealthHub
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var startWindow = _serviceProvider.GetRequiredService<AuthWindow>();
+            var startWindow = _serviceProvider.GetRequiredService<MenuWindow>();
             startWindow.Show();
         }
     }

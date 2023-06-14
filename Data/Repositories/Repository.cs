@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HealthHub.Data.Repositories
@@ -15,11 +16,10 @@ namespace HealthHub.Data.Repositories
         public Repository(DbContext hospitalContext)
         {
             _hospitalContext = hospitalContext;
-            
         }
 
         public void Add(TEntity entity)
-        {
+        {            
             _hospitalContext.Set<TEntity>().Add(entity);
         }
 

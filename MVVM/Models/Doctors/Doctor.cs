@@ -31,6 +31,8 @@ namespace HealthHub.MVVM.Models.Doctors
 
         public virtual ICollection<DoctorSupervision> DoctorSupervisions { get; set; } = new List<DoctorSupervision>();
 
+        public virtual ICollection<DoctorsSchedule> DoctorsSchedules { get; set; } = new List<DoctorsSchedule>();
+
         public virtual ICollection<Family> Families { get; set; } = new List<Family>();
 
         public virtual Hospital Hospital { get; set; } = null!;

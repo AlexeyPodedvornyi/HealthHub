@@ -22,5 +22,10 @@ namespace HealthHub.Services
         {
             return await _unitOfWork.DoctorRepository.GetHospitalIdAsync(doctorId);
         }
+
+        public async Task<List<Doctor>> GetAllDoctorsAsync()
+        {
+            return await _unitOfWork.DoctorRepository.GetAllAsync();
+        }
     }
 }

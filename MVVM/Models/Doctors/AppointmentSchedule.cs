@@ -12,7 +12,7 @@ namespace HealthHub.MVVM.Models.Doctors
 
         public int DocId { get; set; }
 
-        public string VisitTime { get; set; } = null!;
+        public DateTimeOffset VisitTime { get; set; }
 
         public bool? Active { get; set; }
 

@@ -1,0 +1,110 @@
+﻿<Window x:Class="HealthHub.MVVM.Views.DoctorsScheduleAddWindw"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthHub.MVVM.Views"
+        mc:Ignorable="d"
+        xmlns:viewmodels="clr-namespace:HealthHub.MVVM.ViewModels" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        d:DataContext="{d:DesignInstance Type=viewmodels:DoctorsScheduleAddViewModel}"
+        Title="DoctorsScheduleAddWindw" Height="400" Width="700"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Row="0"
+                  Margin="5"
+                  BorderThickness="0"
+                  HorizontalContentAlignment="Center"
+                  ItemsSource="{Binding DoctorsSchedules, Mode=OneWay}"
+                  HorizontalAlignment="Left">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource gridViewHeader}">
+                    <GridViewColumn Header="№ графіку" DisplayMemberBinding="{Binding Doc.FullName}"/>
+                    <GridViewColumn Header="№ лікаря" DisplayMemberBinding="{Binding Doc.Spec.SpecName}"/>
+                    <GridViewColumn Header="Дата приймому" DisplayMemberBinding="{Binding BaseDate, StringFormat=dd/MM/yyyy}"/>
+                    <GridViewColumn Header="Початок зміни" DisplayMemberBinding="{Binding StartTime, StringFormat=HH:mm}"/>
+                    <GridViewColumn Header="Кінець зміни" DisplayMemberBinding="{Binding EndTime, StringFormat=HH:mm}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Row="1">
+            <Label 
+                Content="Призначити часи роботи"
+                FontSize="15"
+                Height="30"
+                FontWeight="SemiBold"
+                VerticalAlignment="Top"/>
+            <Label 
+                Content="№ графіку"
+                FontSize="15.5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                 Margin="13,35,0,0"/>
+            <ComboBox  
+                Margin="99,41,0,0"
+                FontSize="15.5"
+                FontWeight="Thin"
+                Height="25"
+                Width="100"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding Doctors}"
+                DisplayMemberPath="Id"
+                SelectedItem="{Binding ComboboxSelectedDoctor}"/>
+            <Label 
+                Content="Початок зміни"
+                FontSize="15.5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                 Margin="13,89,0,0"/>
+            <Border Width="150" 
+                    Height="30"
+                    BorderThickness="0 0 0 1"
+                    BorderBrush="DimGray" Margin="133,88,417,74">
+                <materialDesign:TimePicker  
+                                       BorderThickness="1"
+                                       BorderBrush="DimGray"
+                                        FontWeight="Thin"/>
+            </Border>
+
+            <Label 
+                Content="Кінець зміни"
+                FontSize="15.5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                 Margin="328,89,0,0"/>
+            <Border Width="150" 
+                    Height="30"
+                    BorderThickness="0 0 0 1"
+                    BorderBrush="DimGray" Margin="436,88,114,74">
+                <materialDesign:TimePicker  
+                                       BorderThickness="1"
+                                       BorderBrush="DimGray"
+                                       FontWeight="Thin"/>
+            </Border>
+
+            <CheckBox Content="Застосувати обраний час для усіх графіків лікаря"
+                      Margin="10,130,130,10"
+                      FontSize="14"
+                      FontWeight="DemiBold"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{Binding IsFilter1Checked, Mode=OneWayToSource}"/>
+            <Button
+                Style="{StaticResource medRecordButton}"
+                Content="Застосувати графік"
+                Width="150"
+                Height="30"
+                VerticalAlignment="Top"
+                Margin="521,141,29,0"
+                Command="{Binding AddScheduleCommand}"    
+                    />
+        </Grid>
+
+    </Grid>
+</Window>

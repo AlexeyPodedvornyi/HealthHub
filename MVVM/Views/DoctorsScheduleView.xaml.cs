@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace HealthHub.MVVM.Views
 {
     /// <summary>
-    /// Interaction logic for ReportView.xaml
+    /// Interaction logic for DoctorsScheduleView.xaml
     /// </summary>
-    public partial class ReportView : UserControl
+    public partial class DoctorsScheduleView : UserControl
     {
-        public ReportView()
+        public DoctorsScheduleView()
         {
             InitializeComponent();
         }

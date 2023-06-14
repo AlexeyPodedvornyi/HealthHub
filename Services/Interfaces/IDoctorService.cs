@@ -10,5 +10,6 @@ namespace HealthHub.Services.Interfaces
     public interface IDoctorService
     {
         Task<int> GetHospitalIdAsync(int doctorId);
+        Task<List<Doctor>> GetAllDoctorsAsync();
     }
 }

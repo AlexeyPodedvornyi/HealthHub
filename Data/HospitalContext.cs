@@ -67,7 +67,8 @@ namespace HealthHub.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["unauthorizedRole"].ConnectionString);
+            //optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["unauthorizedRole"].ConnectionString);
+            optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["adminRole"].ConnectionString);
             // Включение логирования чувствительных данных
             optionsBuilder.EnableSensitiveDataLogging();
         }
@@ -111,7 +112,7 @@ namespace HealthHub.Data
                 entity.Property(e => e.DocId).HasColumnName("doc_id");
                 entity.Property(e => e.VisitDate).HasColumnName("visit_date");
                 entity.Property(e => e.VisitTime)
-                    .HasMaxLength(4)
+                    .HasColumnType("time with time zone")
                     .HasColumnName("visit_time");
 
                 entity.HasOne(d => d.Doc).WithMany(p => p.AppointmentSchedules)
@@ -244,7 +245,7 @@ namespace HealthHub.Data
                 entity.ToTable("doctorsSchedules");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .UseIdentityAlwaysColumn()
                     .HasColumnName("id");
                 entity.Property(e => e.BaseDate).HasColumnName("base_date");
                 entity.Property(e => e.DocId).HasColumnName("doc_id");
@@ -254,6 +255,11 @@ namespace HealthHub.Data
                 entity.Property(e => e.StartTime)
                     .HasColumnType("time with time zone")
                     .HasColumnName("start_time");
+
+                entity.HasOne(d => d.Doc).WithMany(p => p.DoctorsSchedules)
+                    .HasForeignKey(d => d.DocId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_doc_id");
             });
 
             modelBuilder.Entity<Family>(entity =>
@@ -393,7 +399,6 @@ namespace HealthHub.Data
                     .HasColumnName("last_name");
                 entity.Property(e => e.MiddleName)
                     .HasMaxLength(20)
-                    .IsFixedLength()
                     .HasColumnName("middle_name");
                 entity.Property(e => e.Password)
                     .HasMaxLength(256)

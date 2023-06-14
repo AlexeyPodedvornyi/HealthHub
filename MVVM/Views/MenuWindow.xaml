@@ -10,7 +10,11 @@
         mc:Ignorable="d"
         Title="MenuWindow" Height="450" Width="850" WindowStyle="None"
         ResizeMode="NoResize">
-    
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180"/>
@@ -39,10 +43,10 @@
                 Width="50"
                 HorizontalAlignment="Left"
                 DataContext="{Binding AnimatedSidebarViewModel}"
-                                        Background="#59cdff">
+                Background="#59cdff">
             
             <customControls:AnimatedSidebar.SidebarContent>
-                <StackPanel>
+                <StackPanel Width="180">
                     <!--To switch ViewModel from parent element AnimatedSidebar,
                     RelativeSource AncestorType was used to indicate default current Window`s ViewModel 
                     -->
@@ -81,8 +85,10 @@
                     <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"
                         ImageSource="/Images/calendar2.ico" 
                         LabelContent="Робочий графік"
-                        Command="{Binding DataContext.NavigateHomeCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                        Command="{Binding DataContext.NavigateDoctorsScheduleCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                         GroupName="NavigationButtons"
+                        Visibility="{Binding DataContext.IsScheduleVisible,  RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                            Converter={ StaticResource BoolToVisConverter}}"
                         />
                     
                     <customControls:ImageRadioButton Style="{StaticResource SidebarButton}"

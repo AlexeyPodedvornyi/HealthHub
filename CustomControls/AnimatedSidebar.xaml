@@ -13,8 +13,7 @@
     <ItemsControl
                 Background="Transparent"
                 HorizontalAlignment="Left"
-                x:Name="Sidebar"
-                Width="170"
+                x:Name="Sidebar"                
                 Margin="0 10 0 0">
         <ContentPresenter Content="{Binding SidebarContent, ElementName=SidebarBorder}"/>
     </ItemsControl>

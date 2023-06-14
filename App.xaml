@@ -23,8 +23,8 @@
             <DataTemplate DataType="{x:Type viewModel:SickLeaveViewModel}">
                 <view:SickLeaveView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:ReportViewModel}">
-                <view:ReportView/>
+            <DataTemplate DataType="{x:Type viewModel:DoctorsScheduleViewModel}">
+                <view:DoctorsScheduleView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:MedicalRecordViewModel}">
                 <view:MedicalRecordView/>

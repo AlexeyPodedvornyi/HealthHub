@@ -23,5 +23,11 @@ namespace HealthHub.Data.Repositories.Doctors
                 .Select(d => d.HospitalId)
                 .FirstAsync();
         }
+
+        public async Task<List<Doctor>> GetAllAsync()
+        {
+            return await _dbContext.Set<Doctor>()
+                .ToListAsync();
+        }
     }
 }

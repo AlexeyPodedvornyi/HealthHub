@@ -17,5 +17,7 @@ namespace HealthHub.MVVM.Models.Doctors
         public DateTimeOffset StartTime { get; set; }
 
         public DateTimeOffset EndTime { get; set; }
+
+        public virtual Doctor Doc { get; set; } = null!;
     }
 }

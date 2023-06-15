@@ -67,8 +67,7 @@ namespace HealthHub.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["unauthorizedRole"].ConnectionString);
-            optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["adminRole"].ConnectionString);
+            optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["unauthorizedRole"].ConnectionString);
             // Включение логирования чувствительных данных
             optionsBuilder.EnableSensitiveDataLogging();
         }

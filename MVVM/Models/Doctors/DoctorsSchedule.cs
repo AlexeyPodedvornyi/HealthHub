@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthHub.MVVM.Models.Doctors
 {
-    public class DoctorsSchedule
+    public partial class DoctorsSchedule
     {
         public int Id { get; set; }
 

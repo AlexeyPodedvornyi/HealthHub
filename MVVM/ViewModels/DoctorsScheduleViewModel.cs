@@ -1,4 +1,5 @@
-﻿using HealthHub.MVVM.Commands;
+﻿using HealthHub.Helpers;
+using HealthHub.MVVM.Commands;
 using HealthHub.MVVM.Models.Doctors;
 using HealthHub.MVVM.Views;
 using HealthHub.Services.Interfaces;
@@ -107,6 +108,7 @@ namespace HealthHub.MVVM.ViewModels
             _doctorsScheduleAddViewModel = doctorsScheduleAddViewModel;
 
             InitListCommand = new RelayCommand(async exec => await InitListAsync());
+            AddScheduleCommand = new RelayCommand(async exec => await AddSchedule());
             ResetInputsCommand = new RelayCommand(exec => ResetInputsValue());
 
             InitListCommand.Execute(null);
@@ -132,15 +134,16 @@ namespace HealthHub.MVVM.ViewModels
             Doctors = await _doctorService.GetAllDoctorsAsync();
         }
 
-        private async Task AddSheduleAsync()
-        {
+        private async Task AddSchedule()
+        {          
             var res = ValidateInputs();
             if (!res)
                 return;
-
-            _doctorsScheduleAddViewModel.InitializeParameters(ComboboxSelectedDoctor!, DoctorsSchedules);
+       
+            _doctorsScheduleAddViewModel.InitializeParameters(ComboboxSelectedDoctor!, CreateDoctorSchedule());
             var addWindow = new DoctorsScheduleAddWindw { DataContext = _doctorsScheduleAddViewModel };
             addWindow.ShowDialog();
+            await InitListAsync();
         }
 
         private bool ValidateInputs()
@@ -167,6 +170,12 @@ namespace HealthHub.MVVM.ViewModels
                     _dialogService.ShowError("Початковий день прийому не може бути минулою датой та сьогоднішньою, у полі \"Дні прийому з\" !", "Помилка даних");
                     return false;
                 }
+
+                bool isSchedulesValid = ValidateSchedules();
+                if (!isSchedulesValid)
+                {
+                    return false;
+                }
             }
             else
             {
@@ -181,11 +190,60 @@ namespace HealthHub.MVVM.ViewModels
             return true;        
         }
 
+        private bool ValidateSchedules()
+        {
+            bool condition;
+            if(EndTerm.HasValue)
+            {
+                condition = DoctorsSchedules.Any(d => d.DocId == ComboboxSelectedDoctor!.DocId && d.BaseDate >= DateTimeConverter.ConvertToDateOnly(StartTerm!.Value.Date)
+                    && d.BaseDate <= DateTimeConverter.ConvertToDateOnly(EndTerm!.Value.Date));
+            }
+            else
+            {
+                condition = DoctorsSchedules.Any(d => d.DocId == ComboboxSelectedDoctor!.DocId && d.BaseDate == DateTimeConverter.ConvertToDateOnly(StartTerm!.Value.Date));
+            }             
+
+            if (condition)
+            {
+                _dialogService.ShowError("Запис для обраного врача включно з обраним діапазоном дат або його частиною вже є у таблиці !", "Помилка даних");
+                return false;
+            }
+
+            return true;
+        }
+
         private void ResetInputsValue()
         {
             ComboboxSelectedDoctor = null;
             StartTerm = null;
             EndTerm = null;
+        }
+
+        private List<DoctorsSchedule> CreateDoctorSchedule()
+        {
+            List<DoctorsSchedule> schedule = new List<DoctorsSchedule>();
+            if (!EndTerm.HasValue)
+            {
+                schedule.Add(new DoctorsSchedule {
+                    DocId = ComboboxSelectedDoctor!.DocId ,
+                    BaseDate = DateTimeConverter.ConvertToDateOnly(StartTerm!.Value)
+                });
+            }
+            else if (StartTerm.HasValue)
+            {
+                var lastId = DoctorsSchedules.Select(d => d.Id).LastOrDefault();
+                for (var iDate = StartTerm.Value; iDate <= EndTerm.Value; iDate = iDate.AddDays(1))
+                {
+                    schedule.Add(new DoctorsSchedule
+                    {
+                        NotIncrementedId = ++lastId,
+                        DocId = ComboboxSelectedDoctor!.DocId,
+                        BaseDate = DateTimeConverter.ConvertToDateOnly(iDate)
+                    });
+                }
+            }
+
+            return schedule;
         }
     }
 }

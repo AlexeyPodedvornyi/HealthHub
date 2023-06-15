@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace HealthHub.MVVM.Models.Doctors
 {
-    public partial class Doctor
+    public partial class DoctorsSchedule
     {
         [NotMapped]
-        public string FullName { get => $"{LastName} {FirstName} {MiddleName}"; }
-
+        public int NotIncrementedId { get; set; }
     }
 }

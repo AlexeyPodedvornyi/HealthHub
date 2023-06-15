@@ -27,6 +27,7 @@ namespace HealthHub.Data
         RecipeRepository RecipeRepository { get; }
         SickLeaveRepository SickLeaveRepository { get; }
         DoctorsScheduleRepository DoctorsScheduleRepository { get; }
+        AppointmentScheduleRepository AppointmentScheduleRepository { get; }
         void SetConnectionString(string connectionString);
         void Commit();
         Task SaveChangesAsync();

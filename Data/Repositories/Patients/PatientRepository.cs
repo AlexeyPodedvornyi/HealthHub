@@ -1,5 +1,6 @@
 ﻿using HealthHub.MVVM.Models.Patients;
 using HealthHub.Services;
+using HealthHub.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace HealthHub.Data.Repositories.Patients
     public class PatientRepository : Repository<Patient>
     {
         private readonly DbContext _dbContext;
-        
+
+
         public PatientRepository(DbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
@@ -34,7 +36,7 @@ namespace HealthHub.Data.Repositories.Patients
             {
                 return await _dbContext.Set<Patient>()
                     .Include(p => p.City)
-                    .Where(p => p.FirstName == names[0] || p.LastName == names[0])
+                    .Where(p => p.FirstName == names[0] || p.LastName == names[0] || p.MiddleName == names[0])
                     .ToListAsync();
             }
             else if (names.Length == 2)
@@ -42,14 +44,23 @@ namespace HealthHub.Data.Repositories.Patients
                 return await _dbContext.Set<Patient>()
                     .Include(p => p.City)
                     .Where(p => (p.FirstName == names[0] && p.LastName == names[1]) 
-                        || (p.FirstName == names[1] && p.LastName == names[0]))
+                        || p.FirstName == names[1] && p.LastName == names[0]
+                        || p.FirstName == names[0] && p.MiddleName == names[1]
+                        || p.FirstName == names[1] && p.MiddleName == names[0]
+                        || p.LastName == names[0] && p.MiddleName == names[1]
+                        || p.LastName == names[1] && p.MiddleName == names[0])
                     .ToListAsync();
             }
             else if (names.Length == 3)
             {
                 return await _dbContext.Set<Patient>()
                     .Include(p => p.City)
-                    .Where(p => p.FirstName == names[0] && p.LastName == names[2] && p.MiddleName == names[1])
+                    .Where(p => p.FirstName == names[0] && p.LastName == names[1] && p.MiddleName == names[2]
+                            || p.FirstName == names[0] && p.LastName == names[2] && p.MiddleName == names[1]
+                            || p.FirstName == names[1] && p.LastName == names[0] && p.MiddleName == names[2]
+                            || p.FirstName == names[1] && p.LastName == names[2] && p.MiddleName == names[0]
+                            || p.FirstName == names[2] && p.LastName == names[0] && p.MiddleName == names[1]
+                            || p.FirstName == names[2] && p.LastName == names[1] && p.MiddleName == names[0])
                     .ToListAsync();
             }
 

@@ -8,7 +8,10 @@
         xmlns:commands="clr-namespace:HealthHub.MVVM.Commands" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Height="450" Width="500" WindowStyle="None" ResizeMode="NoResize">
+        Height="450" Width="500" 
+        WindowStyle="None" 
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
 
     
     <Grid>

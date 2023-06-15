@@ -27,7 +27,7 @@ namespace HealthHub.Services
 
         public CurrentUserService()
         {
-            CurrentRole = UserRole.DepartmentHead;
+            CurrentRole = UserRole.Unauthorized;
         }
 
     }

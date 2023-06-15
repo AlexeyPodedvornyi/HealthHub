@@ -29,12 +29,13 @@ namespace HealthHub.Data
         public RecipeRepository RecipeRepository { get; private set; }
         public SickLeaveRepository SickLeaveRepository { get; private set; }
         public DoctorsScheduleRepository DoctorsScheduleRepository { get; private set; }
+        public AppointmentScheduleRepository AppointmentScheduleRepository { get; private set; }
 
 
         public UnitOfWork(DbContext dbContext, AdminAuthInfoRepository adminAuthInfoRepository, DocAuthInfoRepository docAuthInfoRepository, PatientRepository patientRepository,
             CityRepository cityRepository, PatientTreatmentRepository patientTreatmentRepository, MedicalRecordRepository medicalRecordRepository, MedicalHistoryRepository medicalHistoryRepository,
             VisitRepository visitRepository, DoctorSupervisionRepository doctorSupervisionRepository, DoctorRepository doctorRepository, SpecialtyRepository specialtyRepository,
-            RecipeRepository recipeRepository, SickLeaveRepository sickLeaveRepository, DoctorsScheduleRepository doctorsScheduleRepository)
+            RecipeRepository recipeRepository, SickLeaveRepository sickLeaveRepository, DoctorsScheduleRepository doctorsScheduleRepository, AppointmentScheduleRepository appointmentScheduleRepository)
         {
             _dbContext = dbContext;
             AdminAuthInfoRepository = adminAuthInfoRepository;
@@ -51,11 +52,11 @@ namespace HealthHub.Data
             RecipeRepository = recipeRepository;
             SickLeaveRepository = sickLeaveRepository;
             DoctorsScheduleRepository = doctorsScheduleRepository;
+            AppointmentScheduleRepository = appointmentScheduleRepository;
         }
 
         public void SetConnectionString(string connectionString)
         {
-            var str = _dbContext.Database.GetConnectionString();
             _dbContext.Database.SetConnectionString(connectionString);
         }
 

@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthHub.MVVM.Views"
         mc:Ignorable="d"
-        xmlns:viewmodels="clr-namespace:HealthHub.MVVM.ViewModels" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:viewmodels="clr-namespace:HealthHub.MVVM.ViewModels" 
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         d:DataContext="{d:DesignInstance Type=viewmodels:DoctorsScheduleAddViewModel}"
-        Title="DoctorsScheduleAddWindw" Height="400" Width="700"
+        Title="Призначення часу змін" Height="400" Width="700"
         WindowStyle="ToolWindow"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        SizeToContent="Manual"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -24,8 +27,8 @@
                   HorizontalAlignment="Left">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource gridViewHeader}">
-                    <GridViewColumn Header="№ графіку" DisplayMemberBinding="{Binding Doc.FullName}"/>
-                    <GridViewColumn Header="№ лікаря" DisplayMemberBinding="{Binding Doc.Spec.SpecName}"/>
+                    <GridViewColumn Header="№ графіку" DisplayMemberBinding="{Binding NotIncrementedId}"/>
+                    <GridViewColumn Header="№ лікаря" DisplayMemberBinding="{Binding DocId}"/>
                     <GridViewColumn Header="Дата приймому" DisplayMemberBinding="{Binding BaseDate, StringFormat=dd/MM/yyyy}"/>
                     <GridViewColumn Header="Початок зміни" DisplayMemberBinding="{Binding StartTime, StringFormat=HH:mm}"/>
                     <GridViewColumn Header="Кінець зміни" DisplayMemberBinding="{Binding EndTime, StringFormat=HH:mm}"/>
@@ -54,55 +57,118 @@
                 Width="100"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left"
-                ItemsSource="{Binding Doctors}"
-                DisplayMemberPath="Id"
-                SelectedItem="{Binding ComboboxSelectedDoctor}"/>
+                ItemsSource="{Binding DoctorsSchedules}"
+                DisplayMemberPath="NotIncrementedId"
+                SelectedItem="{Binding ComboboxSelectedItem}"/>
             <Label 
                 Content="Початок зміни"
                 FontSize="15.5"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                 Margin="13,89,0,0"/>
-            <Border Width="150" 
-                    Height="30"
-                    BorderThickness="0 0 0 1"
-                    BorderBrush="DimGray" Margin="133,88,417,74">
-                <materialDesign:TimePicker  
-                                       BorderThickness="1"
-                                       BorderBrush="DimGray"
-                                        FontWeight="Thin"/>
-            </Border>
+                 Margin="0,35,100,0"/>
+            <DockPanel Width="155"
+                        Height="25"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="170 40 0 0">
+                <ComboBox HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="15"
+                            Width="70"
+                            BorderThickness="1"
+                            ItemsSource="{Binding WorkingHoursPool}"
+                            SelectedItem="{Binding SelectedStartHour}"/>
+                <Label HorizontalAlignment="Center"
+                       Padding="5 0 0 5"
+                        Content=":"
+                        FontSize="15"/>
+                <ComboBox HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="15"
+                            Width="70"
+                            BorderThickness="1"
+                            ItemsSource="{Binding MinutesPool}"
+                            SelectedItem="{Binding SelectedStartMinute}"/>
+            </DockPanel>
+
 
             <Label 
                 Content="Кінець зміни"
                 FontSize="15.5"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                 Margin="328,89,0,0"/>
-            <Border Width="150" 
-                    Height="30"
-                    BorderThickness="0 0 0 1"
-                    BorderBrush="DimGray" Margin="436,88,114,74">
-                <materialDesign:TimePicker  
-                                       BorderThickness="1"
-                                       BorderBrush="DimGray"
-                                       FontWeight="Thin"/>
-            </Border>
+                VerticalAlignment="Bottom"
+                 Margin="13,0,0,68"/>
+            <DockPanel Width="155"
+                           Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Margin="120 20 0 68">
+                <ComboBox HorizontalAlignment="Left"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              FontSize="15"
+                              Width="70"
+                              BorderThickness="1"
+                              ItemsSource="{Binding WorkingHoursPool}"
+                              SelectedItem="{Binding SelectedEndHour}"/>
+                <Label HorizontalAlignment="Center"
+                           Content=":"
+                           Padding="5 0 0 5"
+                           FontSize="15"/>
+                <ComboBox HorizontalAlignment="Right"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              FontSize="15"
+                              Width="70"
+                              BorderThickness="1"
+                              ItemsSource="{Binding MinutesPool}"
+                              SelectedItem="{Binding SelectedEndMinute}" />
+            </DockPanel>
 
             <CheckBox Content="Застосувати обраний час для усіх графіків лікаря"
-                      Margin="10,130,130,10"
+                      Margin="0,47,20,70"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom"
                       FontSize="14"
                       FontWeight="DemiBold"
                       VerticalContentAlignment="Center"
-                      IsChecked="{Binding IsFilter1Checked, Mode=OneWayToSource}"/>
+                      IsChecked="{Binding IsSameTimeForAllChecked, Mode=OneWayToSource}"/>
             <Button
                 Style="{StaticResource medRecordButton}"
-                Content="Застосувати графік"
+                HorizontalContentAlignment="Left"
+                Padding="25 0 0 0"
+                Content="Створити графік"
                 Width="150"
                 Height="30"
-                VerticalAlignment="Top"
-                Margin="521,141,29,0"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,42,13"
                 Command="{Binding AddScheduleCommand}"    
+                    />
+            <Button
+                Style="{StaticResource medRecordButton}"
+                HorizontalContentAlignment="Center"
+                
+                Content="Застосувати виправлення"
+                Width="160"
+                Height="30"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 13"
+                Command="{Binding ApplyChangesCommand}"    
+                    />
+            <Button
+                Style="{StaticResource medRecordButton}"
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Left"
+                Content="Очистити поля"
+                Width="150"
+                Height="30"
+                VerticalAlignment="Bottom"
+                Margin="49,0,0,13"
+                Command="{Binding ResetInputsCommand}"    
                     />
         </Grid>
 

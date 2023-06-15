@@ -13,11 +13,14 @@ namespace HealthHub.Services
     public class DoctorScheduleService : IDoctorScheduleService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public DoctorScheduleService(IUnitOfWork unitOfWork)
+        private readonly IAppointmentScheduleService _appointmentScheduleService;
+        public DoctorScheduleService(IUnitOfWork unitOfWork, IAppointmentScheduleService appointmentScheduleService)
         {
             _unitOfWork = unitOfWork;
+            _appointmentScheduleService = appointmentScheduleService;
         }
 
+        //Data get methotds
         public async Task<List<DoctorsSchedule>> GetAllSchedulesAsync()
         {
             return await _unitOfWork.DoctorsScheduleRepository.GetAllAsync();
@@ -50,6 +53,7 @@ namespace HealthHub.Services
             return new List<DoctorsSchedule>();
         }
 
+        //Get helpers
         private async Task<List<DoctorsSchedule>> GetByDocNDateAsync(int doctorId, DateTime startDate, DateTime endDate)
         {
             var doctorsSchedules = new List<DoctorsSchedule>();
@@ -79,6 +83,40 @@ namespace HealthHub.Services
         private async Task<List<DoctorsSchedule>> GetSchedulesByDateAsync(DateTime startDate)
         {
             return await _unitOfWork.DoctorsScheduleRepository.GetByBaseDateAsync(DateTimeConverter.ConvertToDateOnly(startDate));
+        }
+
+
+        //Data add methods
+        public async Task AddScheduleAsync(DoctorsSchedule schedule, bool saveChanges = true)
+        {
+            await _unitOfWork.DoctorsScheduleRepository.AddAsync(schedule);
+
+            if (saveChanges)
+                await _unitOfWork.SaveChangesAsync();
+        }
+        public async Task AddScheduleListAsync(List<DoctorsSchedule> schedules)
+        {
+            foreach(var schedule in schedules)
+            {                
+                await GenerateAppoinmentScheduleAsync(schedule);
+                await AddScheduleAsync(schedule);
+            }
+        }
+
+
+        //Add helpers
+        private async Task GenerateAppoinmentScheduleAsync(DoctorsSchedule doctorsSchedule)
+        {
+            for(var iTime = doctorsSchedule.StartTime; iTime<=doctorsSchedule.EndTime; iTime = iTime.AddMinutes(30))
+            {
+                var appointment = new AppointmentSchedule
+                {
+                    DocId = doctorsSchedule.DocId,
+                    VisitDate = doctorsSchedule.BaseDate,
+                    VisitTime = iTime
+                };
+                await _appointmentScheduleService.AddAppointementScheduleAsync(appointment, false);
+            }
         }
     }
 }

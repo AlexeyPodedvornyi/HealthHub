@@ -12,5 +12,8 @@ namespace HealthHub.Services.Interfaces
         Task<List<DoctorsSchedule>> GetAllSchedulesAsync();
         Task<List<DoctorsSchedule>> GetSchedulesByDoctorIdAsync(int doctorId);
         Task<List<DoctorsSchedule>> GetSchedulesByDocNDateAsync(int? doctorId, DateTime? startDate, DateTime? endDate);
+        Task AddScheduleAsync(DoctorsSchedule schedule, bool saveChanges = true);
+        Task AddScheduleListAsync(List<DoctorsSchedule> schedules);
+
     }
 }
